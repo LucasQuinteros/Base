@@ -102,6 +102,7 @@ class clase_ingresos(QWidget):
                 
                 self.ui.pushButton.clicked.connect(self.Actualizar_en_base)
                 self.ui.pushButton_2.clicked.connect(self.agregar_nuevoitem)
+                self.ui.pushButton_4.clicked.connect(self.Limpiar_selecciones)
                 self.ui.pushButton_5.clicked.connect(lambda: self.Traer_Prod(self.ui.comboBox.currentText() ) )
                 self.ui.pushButton_3.clicked.connect(lambda: self.Chequear_serie(self.ui.lineEdit.text() )  )
                 self.ui.pushButton_6.clicked.connect(self.agregar_movimiento)
@@ -158,27 +159,42 @@ class clase_ingresos(QWidget):
                         item = self.ui.tableWidget_2.setItem(0, i, item)
                 '''
 
+        def Limpiar_selecciones(self):
+                if(self.ui.tableWidget.selectedItems() !=[]):
+                        self.ui.tableWidget.clearSelection()
+                while (self.ui.tableWidget_2.rowCount() > 0):
+                        self.ui.tableWidget_2.removeRow(0)
+                self.ui.comboBox.setCurrentIndex(0)
+                self.ui.comboBox_2.setCurrentIndex(0)
+                self.ui.comboBox_3.setCurrentIndex(0)
+                self.ui.comboBox_4.setCurrentIndex(0)
+                self.ui.comboBox_5.setCurrentIndex(0)
+                self.ui.comboBox_6.setCurrentIndex(0)
+                self.ui.lineEdit.setText('')
+                self.ui.lineEdit_2.setText('')
+                
+
         def changed(self,item):
                 ID = self.ui.tableWidget.item(item.row(),0).text()
                 for P in self.Ingresos:
                         if (str(P.ProductID) == ID):
                                 aux = P
 
-                if(item.column() == int(self.productpos['Observacion'])):
-                                aux.__dict__['Observacion'] = item.text()
-                                
+                                if(item.column() == int(self.productpos['Observacion'])):
+                                                aux.__dict__['Observacion'] = item.text()
+                                                
 
-                if(item.column() == int(self.productpos['Nserie'])):
-                                aux.__dict__['Nserie'] = item.text()
+                                if(item.column() == int(self.productpos['Nserie'])):
+                                                aux.__dict__['Nserie'] = item.text()
+                                                
+                                if(item.column() == int(self.productpos['PartNum'])):
+                                                aux.__dict__['PartNum'] = item.text()
                                 
-                if(item.column() == int(self.productpos['PartNum'])):
-                                aux.__dict__['PartNum'] = item.text()
-                
-                if(item.column() == int(self.productpos['Descrip'])):
-                                aux.__dict__['Descrip'] = item.text()
+                                if(item.column() == int(self.productpos['Descrip'])):
+                                                aux.__dict__['Descrip'] = item.text()
 
-                if(item.column() == int(self.productpos['ProductName'])):
-                                aux.__dict__['ProductName'] = item.text()
+                                if(item.column() == int(self.productpos['ProductName'])):
+                                                aux.__dict__['ProductName'] = item.text()
                                 
        #rutina boton agregar movimiento
         def agregar_movimiento(self):
@@ -487,7 +503,6 @@ class clase_ingresos(QWidget):
                         else:
                                 cursor.close()
 
-
         def Cargar_movimientos(self,item):
                 
                 
@@ -499,6 +514,8 @@ class clase_ingresos(QWidget):
                                         index = self.Ingresos.index(prod)
                         
                         Producto = self.Ingresos[index]
+                        #Nombre
+                        self.ui.comboBox.setCurrentText(self.ui.tableWidget.item(item.row(),1).text())
                         #categoria
                         self.ui.comboBox_2.setCurrentText(self.ui.tableWidget.item(item.row(),8).text())
                         #ubifis
@@ -658,33 +675,57 @@ class clase_ingresos(QWidget):
         #Busca por nombre de producto y numero de serie carga resultados en lista ingresos
         def Traer_Prod(self,Nombre):
                 try:
+                        aux = ''
                         cursor = self.cnx.cursor()
                         Nombre = self.ui.comboBox.currentText()
                         
                         NumSerie = self.ui.lineEdit.text()
                         Assy = self.ui.lineEdit_2.text()
-                        coincidencia = ''
+                        
                         SeccEquip = self.ui.comboBox_5.currentText()
+                        Categoria = self.ui.comboBox_2.currentText()
+                        ubifis = self.ui.comboBox_3.currentText()
+                        ubiexac = self.ui.comboBox_4.currentText()
+                        estado = self.ui.comboBox_6.currentText()
 
                         reqSerie =  "products.SerialNumber Like '"+ NumSerie + "%' "
                         reqNombre = "products.ProductName Like concat('%' ,'"+ Nombre + "' ,'%') "
                         reqAssy =   "products.Assy Like '" + Assy +  "%' "
                         reqSecEquip = "secequipo.SecEquipoName Like'"+ SeccEquip +"' "
+                        reqCategoria = "categories.CategoryName Like '"+ Categoria +"' "
+                        reqUbiFis = "ubicacionfisica.UbicacionFisicaName Like '"+ubifis+"' "
+                        reqUbiExac = "ubicacionexacta.UbicacionExactaName Like '"+ubiexac+"' "
+                        reqEstado = "estado.Estado Like '"+ estado +"' "
 
-
+                        req = list()
+                        
                         if(Nombre != ''):
-                                coincidencia = reqNombre
-
-                                if(NumSerie != ''):
-                                        coincidencia = coincidencia + "and " + reqSerie
-                                if(Assy != '' ):
-                                        coincidencia = coincidencia + "and "+ reqAssy
-                                if(SeccEquip != '' and SeccEquip != 'None'):
-                                        coincidencia = coincidencia + "and " + reqSecEquip
-
+                               req.append(reqNombre)
+                        if(NumSerie != ''):
+                               req.append(reqSerie)
+                        if(Assy != '' ):
+                                req.append(reqAssy)
+                        if(SeccEquip != '' and SeccEquip != 'None'):
+                                req.append(reqSecEquip)
+                        if(Categoria != '' and Categoria != 'None'):
+                                req.append(reqCategoria)
+                        if(ubifis != '' and ubifis != 'None'):
+                                req.append(reqUbiFis)
+                        if(ubiexac != '' and ubiexac != 'None'):
+                                req.append(reqUbiExac)
+                        if(estado != '' and estado != 'None'):
+                                req.append(reqEstado)
+                        
+                        
+                        if len(req) > 1:
+                                for reqpart in req:
+                                        aux = aux + str(reqpart) + " and "
+                                aux = aux[:-5]
                                 
+                        elif len(req) == 1:
+                                aux = req[0]
 
-                        print(coincidencia)
+                        
   
                         query = "SELECT products.ProductID,\
                                     products.ProductName,\
@@ -704,7 +745,7 @@ class clase_ingresos(QWidget):
                                     Left join movedb.ubicacionfisica on products.UbicacionFisica = ubicacionfisica.UbicacionFisicaID\
                                     Left join movedb.estado			 on products.EstadoID = estado.EstadoID\
                                     left join movedb.secequipo       on products.SecEquipoID = secequipo.SecEquipoID\
-                                    WHERE " + coincidencia + " ;" 
+                                    WHERE " + aux + " ;" 
 
                         rows = cursor.execute(query)
                         data = cursor.fetchall()
