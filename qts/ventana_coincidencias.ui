@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1600</width>
+    <height>562</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <property name="layoutDirection">
+   <enum>Qt::LeftToRight</enum>
+  </property>
+  <widget class="QWidget" name="verticalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>9</x>
+     <y>10</y>
+     <width>1571</width>
+     <height>521</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="sizeConstraint">
+     <enum>QLayout::SetDefaultConstraint</enum>
+    </property>
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Seleccione los items que desee agregar:</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QTableWidget" name="tableWidget">
+      <property name="contextMenuPolicy">
+       <enum>Qt::CustomContextMenu</enum>
+      </property>
+      <property name="sizeAdjustPolicy">
+       <enum>QAbstractScrollArea::AdjustToContents</enum>
+      </property>
+      <property name="columnCount">
+       <number>12</number>
+      </property>
+      <attribute name="horizontalHeaderVisible">
+       <bool>true</bool>
+      </attribute>
+      <attribute name="verticalHeaderVisible">
+       <bool>true</bool>
+      </attribute>
+      <attribute name="verticalHeaderDefaultSectionSize">
+       <number>30</number>
+      </attribute>
+      <attribute name="verticalHeaderMinimumSectionSize">
+       <number>23</number>
+      </attribute>
+      <row>
+       <property name="text">
+        <string>New Row</string>
+       </property>
+      </row>
+      <column>
+       <property name="text">
+        <string>ID</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignLeading|AlignVCenter</set>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Nombre</string>
+       </property>
+       <property name="textAlignment">
+        <set>AlignJustify|AlignVCenter</set>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Cantidad</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Estado</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Observacion</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>NºSerie</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Part Number</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Descripcion</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Categoria</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Ubicacion Exacta</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Ubicacion Fisica</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Seccion Equipo</string>
+       </property>
+      </column>
+      <item row="0" column="0">
+       <property name="checkState">
+        <enum>Unchecked</enum>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item>
+     <widget class="QDialogButtonBox" name="buttonBox">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>100</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="standardButtons">
+       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>Dialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>Dialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
