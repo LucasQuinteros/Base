@@ -32,7 +32,7 @@ class clase_buscar(QWidget):
         self.ui.tableWidget.viewport().installEventFilter(self)
 
         self.ui.pushButton_2.setDisabled(1)
-
+        self.ui.pushButton_4.clicked.connect(self.Limpiar_selecciones)
         self.diccateg = {'':'0'}
         self.dicSecequip = {'':'0'}
         self.dicubifisica = {'':'0'}
@@ -113,10 +113,17 @@ class clase_buscar(QWidget):
                     self.ui.comboBox_2.removeItem(0)
             while (self.ui.comboBox_3.count() > 0):
                     self.ui.comboBox_3.removeItem(0)
+            while (self.ui.comboBox_4.count() > 0):
+                    self.ui.comboBox_4.removeItem(0)
+            while (self.ui.comboBox_5.count() > 0):
+                    self.ui.comboBox_5.removeItem(0)
+            while (self.ui.comboBox_6.count() > 0):
+                    self.ui.comboBox_6.removeItem(0)
+
             self.ui.lineEdit.setText('')              
             try:
                 cursor = self.cnx.cursor()
-
+                #name
                 query = ("SELECT distinct products.ProductName from movedb.products order by ProductName")
                 cursor.execute(query)
                 records = cursor.fetchall()
@@ -124,6 +131,7 @@ class clase_buscar(QWidget):
                 for row in records:
                         self.ui.comboBox.addItem(row[0])
 
+                #ubifisica
                 query = ("SELECT distinct UbicacionFisicaName FROM movedb.ubicacionfisica\
                         order by ubicacionfisica.UbicacionFisicaName asc")
                 
@@ -134,16 +142,52 @@ class clase_buscar(QWidget):
                 for row in records:
                         self.ui.comboBox_2.addItem(row[0])
 
-                
+                #categoria    
                 query = ("SELECT distinct categories.CategoryName FROM movedb.categories\
                             order by categories.CategoryName asc")
                 
                 cursor.execute(query)
                 records = cursor.fetchall()
                 
+                
                 self.ui.comboBox_3.addItem('')
                 for row in records:
                         self.ui.comboBox_3.addItem(row[0])
+
+                #ubiexacta
+                query = ("SELECT distinct UbicacionExactaID,UbicacionExactaName FROM movedb.ubicacionexacta\
+                                order by ubicacionexacta.UbicacionExactaID asc")
+                        
+                cursor.execute(query)
+                records = cursor.fetchall()
+
+                self.ui.comboBox_4.addItem('')
+                for row in records:
+                        
+                        self.ui.comboBox_4.addItem(row[1])
+                #secequipo
+                query = ("SELECT distinct SecEquipoID,SecEquipoName FROM movedb.secequipo\
+                                order by secequipo.SecEquipoID asc")
+                        
+                cursor.execute(query)
+                records = cursor.fetchall()
+                        
+                self.ui.comboBox_5.addItem('')
+                for row in records:
+                        
+                        self.ui.comboBox_5.addItem(row[1])
+
+                #estado
+                query = ("SELECT distinct EstadoID,Estado FROM movedb.estado\
+                                order by estado.EstadoID asc")
+
+                cursor.execute(query)
+                records = cursor.fetchall()
+                        
+                self.ui.comboBox_6.addItem('')
+                for row in records:
+                        
+                        self.ui.comboBox_6.addItem(row[1])
 
             except mysql.connector.Error as err:
                 if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
@@ -158,6 +202,7 @@ class clase_buscar(QWidget):
     def request(self):
                 #header = self.ui.tableWidget.horizontalHeader()
                 #i = 0
+                aux = ''
                 Nombre = ''
                 NumSerie = ''
                 while (self.ui.tableWidget.rowCount() > 0):
@@ -165,39 +210,53 @@ class clase_buscar(QWidget):
                 try:
                     cursor = self.cnx.cursor()
                        
-                    if(self.ui.comboBox.currentIndex() != 0):
-                        Nombre = "ProductName LIKE '%"+ self.ui.comboBox.currentText() + "' "
-
-                    if(self.ui.lineEdit.text() != '' ):
-                        NumSerie = "SerialNumber Like '%"+ self.ui.lineEdit.text() + "' "
-                        if(self.ui.comboBox.currentIndex() != 0 ):
-                            NumSerie = "and "+ NumSerie
-
-
                     Nombre = self.ui.comboBox.currentText()
+                        
                     NumSerie = self.ui.lineEdit.text()
-                    #Assy = self.ui.lineEdit_2.text()
-                    coincidencia = ''
-                    #SeccEquip = self.ui.comboBox_5.currentText()
+                    Assy = self.ui.lineEdit_2.text()
+                        
+                    SeccEquip = self.ui.comboBox_5.currentText()
+                    Categoria = self.ui.comboBox_3.currentText()
+                    ubifis = self.ui.comboBox_2.currentText()
+                    ubiexac = self.ui.comboBox_4.currentText()
+                    estado = self.ui.comboBox_6.currentText()
 
                     reqSerie =  "products.SerialNumber Like '"+ NumSerie + "%' "
                     reqNombre = "products.ProductName Like concat('%' ,'"+ Nombre + "' ,'%') "
-                    #reqAssy =   "products.Assy Like '" + Assy +  "%' "
-                    #reqSecEquip = "secequipo.SecEquipoName Like'"+ SeccEquip +"' "
+                    reqAssy =   "products.Assy Like '" + Assy +  "%' "
+                    reqSecEquip = "secequipo.SecEquipoName Like'"+ SeccEquip +"' "
+                    reqCategoria = "categories.CategoryName Like '"+ Categoria +"' "
+                    reqUbiFis = "ubicacionfisica.UbicacionFisicaName Like '"+ubifis+"' "
+                    reqUbiExac = "ubicacionexacta.UbicacionExactaName Like '"+ubiexac+"' "
+                    reqEstado = "estado.Estado Like '"+ estado +"' "
 
-
+                    req = list()
+                        
                     if(Nombre != ''):
-                        coincidencia = reqNombre
-
-                        if(NumSerie != ''):
-                                coincidencia = coincidencia + "and " + reqSerie
-
-                    '''if(Assy != '' ):
-                                coincidencia = coincidencia + "and "+ reqAssy
-
+                               req.append(reqNombre)
+                    if(NumSerie != ''):
+                               req.append(reqSerie)
+                    if(Assy != '' ):
+                                req.append(reqAssy)
                     if(SeccEquip != '' and SeccEquip != 'None'):
-                                coincidencia = coincidencia + "and " + reqSecEquip'''
-
+                                req.append(reqSecEquip)
+                    if(Categoria != '' and Categoria != 'None'):
+                                req.append(reqCategoria)
+                    if(ubifis != '' and ubifis != 'None'):
+                                req.append(reqUbiFis)
+                    if(ubiexac != '' and ubiexac != 'None'):
+                                req.append(reqUbiExac)
+                    if(estado != '' and estado != 'None'):
+                                req.append(reqEstado)
+                        
+                        
+                    if len(req) > 1:
+                                for reqpart in req:
+                                        aux = aux + str(reqpart) + " and "
+                                aux = aux[:-5]
+                                
+                    elif len(req) == 1:
+                                aux = req[0]
                      
                     query = "SELECT products.ProductID,\
                                     products.ProductName,\
@@ -217,7 +276,7 @@ class clase_buscar(QWidget):
                                     Left join movedb.ubicacionfisica on products.UbicacionFisica = ubicacionfisica.UbicacionFisicaID\
                                     Left join movedb.estado			 on products.EstadoID = estado.EstadoID\
                                     left join movedb.secequipo       on products.SecEquipoID = secequipo.SecEquipoID\
-                                    WHERE " + coincidencia + " ;" 
+                                    WHERE " + aux + " ;" 
 
                     rows = cursor.execute(query)
                     data = cursor.fetchall()
@@ -241,6 +300,19 @@ class clase_buscar(QWidget):
                 else:
                     cursor.close()
 
+    def Limpiar_selecciones(self):
+                if(self.ui.tableWidget.selectedItems() !=[]):
+                        self.ui.tableWidget.clearSelection()
+                while (self.ui.tableWidget.rowCount() > 0):
+                        self.ui.tableWidget.removeRow(0)
+                self.ui.comboBox.setCurrentIndex(0)
+                self.ui.comboBox_2.setCurrentIndex(0)
+                self.ui.comboBox_3.setCurrentIndex(0)
+                self.ui.comboBox_4.setCurrentIndex(0)
+                self.ui.comboBox_5.setCurrentIndex(0)
+                self.ui.comboBox_6.setCurrentIndex(0)
+                self.ui.lineEdit.setText('')
+                self.ui.lineEdit_2.setText('')
 def convert(in_data):
         def cvt(data):
             try:
