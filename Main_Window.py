@@ -9,6 +9,8 @@ from lib.Funciones_Modificar import clase_modificar
 from lib.Funciones_Movimientos import clase_movimientos
 from lib.Funciones_Nuevo import clase_nuevo
 from lib.Funciones_Ingresos import clase_ingresos
+from lib.Funciones_Configuraciones import clase_configuraciones
+
 from qts.Ui_Menu_principal import Ui_MainWindow
 
 lastindex = 0
@@ -51,6 +53,7 @@ if __name__ == '__main__':
     Pag_nuevo = clase_nuevo()
     Pag_movimientos = clase_movimientos('Pag_busqueda')
     Pag_ingresos = clase_ingresos()
+    #Pag_configuraciones = clase_coincidencias()
     widget = QtWidgets.QStackedWidget()
     
     
@@ -86,6 +89,8 @@ if __name__ == '__main__':
     Pag_ingresos.ui.buttonBox.accepted.connect(ir_menu)
     Pag_ingresos.ui.buttonBox.rejected.connect(ir_menu)
     widget.addWidget(Pag_ingresos.widget)
+
+
     
     widget.setWindowTitle('Base v1.0')
     
