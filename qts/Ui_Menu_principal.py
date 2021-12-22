@@ -496,7 +496,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.Boton_Tablas.setText(_translate("MainWindow", "Tablas \n"
 " (En desarrollo)"))
-        self.Boton_Salida.setText(_translate("MainWindow", "Sin Uso"))
+        self.Boton_Salida.setText(_translate("MainWindow", "Configuraciones"))
         self.Boton_Buscar.setText(_translate("MainWindow", "Busqueda de Items\n"
 " ( Modificacion parcial de items )"))
         self.Boton_Ingreso.setText(_translate("MainWindow", "Actualizacion \n"
