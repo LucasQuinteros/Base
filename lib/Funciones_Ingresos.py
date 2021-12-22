@@ -104,7 +104,7 @@ class clase_ingresos(QWidget):
                 self.ui.pushButton_2.clicked.connect(self.agregar_nuevoitem)
                 self.ui.pushButton_4.clicked.connect(self.Limpiar_selecciones)
                 self.ui.pushButton_5.clicked.connect(lambda: self.Traer_Prod(self.ui.comboBox.currentText() ) )
-                self.ui.pushButton_3.clicked.connect(lambda: self.Chequear_serie(self.ui.lineEdit.text() )  )
+                #self.ui.pushButton_3.clicked.connect(lambda: self.Chequear_serie(self.ui.lineEdit.text() )  )
                 self.ui.pushButton_6.clicked.connect(self.agregar_movimiento)
                 
 

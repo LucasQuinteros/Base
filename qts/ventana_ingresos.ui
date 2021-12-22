@@ -13,14 +13,14 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
     <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0">
      <property name="sizeConstraint">
       <enum>QLayout::SetMaximumSize</enum>
      </property>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,10,0,100,0,10">
+      <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,10,0,100,0">
        <property name="sizeConstraint">
         <enum>QLayout::SetDefaultConstraint</enum>
        </property>
@@ -126,7 +126,7 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>100</width>
+           <width>200</width>
            <height>0</height>
           </size>
          </property>
@@ -144,29 +144,10 @@
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QPushButton" name="pushButton_3">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>135</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Buscar solo por Serie y PN</string>
-         </property>
-        </widget>
-       </item>
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="0,10,0,100,0,0">
+      <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="0,10,0,100,0">
        <property name="sizeConstraint">
         <enum>QLayout::SetDefaultConstraint</enum>
        </property>
@@ -275,7 +256,7 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>100</width>
+           <width>200</width>
            <height>0</height>
           </size>
          </property>
@@ -292,19 +273,6 @@
           </font>
          </property>
         </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_7">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>135</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
        </item>
       </layout>
      </item>
