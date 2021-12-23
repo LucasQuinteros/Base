@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QApplication, QDialog, QMainWindow, QSizePolicy, QTableWidgetItem,QTableWidget,QTableView, QWidget
 from PyQt5 import QtSql,QtWidgets,QtCore
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import QSettings, Qt
 
 import sys
 
@@ -10,11 +10,11 @@ from lib.Funciones_Movimientos import clase_movimientos
 from lib.Funciones_Nuevo import clase_nuevo
 from lib.Funciones_Ingresos import clase_ingresos
 from lib.Funciones_Configuraciones import clase_configuraciones
-
+from lib.Funciones_MenuPrincipal import clase_principal
 from qts.Ui_Menu_principal import Ui_MainWindow
 
 lastindex = 0
-
+'''
 def GotoBuscar():
     widget.setCurrentIndex(1)
     Pag_Busqueda.cargar_tablas()
@@ -45,17 +45,23 @@ def GotoIngreso():
     widget.setCurrentIndex(5)
     Pag_ingresos.Cargar_tablas()
 
+def GotoConfig():
+    widget.setCurrentIndex(6)
+'''
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+
+    Myapp = clase_principal()
+    '''
     MainWindow = QMainWindow()
-    Pag_Busqueda = clase_buscar()
+    Pag_configuraciones = clase_configuraciones()
+    Pag_Busqueda = clase_buscar(Pag_configuraciones.connector)
     Pag_modificar = clase_modificar()
     Pag_nuevo = clase_nuevo()
     Pag_movimientos = clase_movimientos('Pag_busqueda')
-    Pag_ingresos = clase_ingresos()
-    #Pag_configuraciones = clase_coincidencias()
-    widget = QtWidgets.QStackedWidget()
+    Pag_ingresos = clase_ingresos(Pag_configuraciones.connector)
     
+    widget = QtWidgets.QStackedWidget()
     
     widget.setMinimumSize(1600,1200)
     widget.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)
@@ -64,6 +70,7 @@ if __name__ == '__main__':
     ui.setupUi(MainWindow)
     ui.Boton_Ingreso.clicked.connect(GotoIngreso)
     ui.Boton_Buscar.clicked.connect(GotoBuscar)
+    ui.Boton_Config.clicked.connect(GotoConfig)
     widget.addWidget(MainWindow)
       
     Pag_Busqueda.ui.pushButton.clicked.connect(Pag_Busqueda.request)
@@ -90,9 +97,12 @@ if __name__ == '__main__':
     Pag_ingresos.ui.buttonBox.rejected.connect(ir_menu)
     widget.addWidget(Pag_ingresos.widget)
 
-
+    Pag_configuraciones.ui.pushButton_2.clicked.connect(ir_menu)
+    widget.addWidget(Pag_configuraciones.widget)
     
     widget.setWindowTitle('Base v1.0')
+    '''
     
-    widget.showMaximized()
+    #Myapp.widget.showMaximized()
+    
     sys.exit(app.exec_())

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'c:\Users\Test\Documents\PlatformIO\Projects\MySql_database\qts\Configuraciones.ui'
+# Form implementation generated from reading ui file 'c:\Users\Test\Documents\PlatformIO\Projects\MySql_database\qts\ventana_configuraciones.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -144,6 +144,12 @@ class Ui_Form(object):
         self.pushButton_2.setFont(font)
         self.pushButton_2.setObjectName("pushButton_2")
         self.horizontalLayout_5.addWidget(self.pushButton_2)
+        self.pushButton_3 = QtWidgets.QPushButton(Form)
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.pushButton_3.setFont(font)
+        self.pushButton_3.setObjectName("pushButton_3")
+        self.horizontalLayout_5.addWidget(self.pushButton_3)
         self.verticalLayout.addLayout(self.horizontalLayout_5)
 
         self.retranslateUi(Form)
@@ -158,4 +164,5 @@ class Ui_Form(object):
         self.label_2.setText(_translate("Form", "Password :"))
         self.label_3.setText(_translate("Form", "Host :"))
         self.label_4.setText(_translate("Form", "DB Name:"))
-        self.pushButton_2.setText(_translate("Form", "Cargar"))
+        self.pushButton_2.setText(_translate("Form", "Volver"))
+        self.pushButton_3.setText(_translate("Form", "Guardar"))

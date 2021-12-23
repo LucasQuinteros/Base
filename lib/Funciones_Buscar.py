@@ -14,7 +14,7 @@ from qts.Ui_ventana_busqueda import Ui_Form
 
 
 class clase_buscar(QWidget):
-    def __init__(self):
+    def __init__(self, conn):
         super().__init__()
         self.widget = QWidget()
         self.ui = Ui_Form()
@@ -22,10 +22,7 @@ class clase_buscar(QWidget):
         self.menu = QMenu(self)
         self.action = self.menu.addAction("Modificar")       
         #self.menu.triggered.connect(self.Modificar)
-        self.cnx = mysql.connector.connect(user='root', 
-                                            password='12345678',
-                                            host='10.0.0.50',
-                                            database='movedb')
+        self.conn = conn
 
         self.ui.tableWidget.setContextMenuPolicy(QtCore.Qt.CustomContextMenu) 
         self.ui.tableWidget.customContextMenuRequested.connect(self.generateMenu)
@@ -94,6 +91,11 @@ class clase_buscar(QWidget):
 
     def get_ui(self):
         return self.widget
+
+    def Actualizar_Conector(self,conn):
+
+            self.conn = conn
+            
         
     def cargar_tablas(self ):
             self.diccateg.clear()
@@ -122,6 +124,10 @@ class clase_buscar(QWidget):
 
             self.ui.lineEdit.setText('')              
             try:
+                self.cnx = mysql.connector.connect(user=self.conn['user'], 
+                                                        password=self.conn['password'],
+                                                        host=self.conn['host'],
+                                                        database=self.conn['database'])
                 cursor = self.cnx.cursor()
                 #name
                 query = ("SELECT distinct products.ProductName from movedb.products order by ProductName")

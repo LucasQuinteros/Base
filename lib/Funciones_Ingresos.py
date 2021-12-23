@@ -65,7 +65,7 @@ class clase_Coincidencias(QWidget):
 class clase_ingresos(QWidget):
         procCargar = QtCore.pyqtSignal(list)
     
-        def __init__(self):
+        def __init__(self,conn):
                 super().__init__()
                 self.widget = QWidget()
                 self.ui = Ui_Form()
@@ -73,7 +73,7 @@ class clase_ingresos(QWidget):
                 self.menu = QMenu()
                 self.menu_2 = QMenu()
                 self.cambios = list()
-
+                self.conn = conn
                 self.Ingresos = list()
                 self.action = self.menu.addAction("Eliminar")
                 self.action_2 = self.menu_2.addAction("Eliminar")
@@ -88,10 +88,7 @@ class clase_ingresos(QWidget):
                 self.ventana_movi.procIngresos.connect(self.proc_cargar)
                 self.ventana_movi.ui.pushButton.clicked.connect(self.ventana_movi.widget.close)
 
-                self.cnx = mysql.connector.connect(user='root', 
-                                                        password='12345678',
-                                                        host='10.0.0.50',
-                                                        database='movedb')
+                
                 
                 self.ui.comboBox_2.currentTextChanged.connect(lambda: self.handlercambio('Cat'))
                 self.ui.comboBox_3.currentTextChanged.connect(lambda: self.handlercambio('UbiFis'))
@@ -158,6 +155,8 @@ class clase_ingresos(QWidget):
                         item = QtWidgets.QTableWidgetItem(str(column))
                         item = self.ui.tableWidget_2.setItem(0, i, item)
                 '''
+        def Actualizar_Conector(self,conn):
+                self.conn = conn
 
         def Limpiar_selecciones(self):
                 if(self.ui.tableWidget.selectedItems() !=[]):
@@ -597,6 +596,10 @@ class clase_ingresos(QWidget):
                 
                 self.ui.lineEdit.setText('')              
                 try:
+                        self.cnx = mysql.connector.connect(user=self.conn['user'], 
+                                                        password=self.conn['password'],
+                                                        host=self.conn['host'],
+                                                        database=self.conn['database'])
                         cursor = self.cnx.cursor()
 
                         query = ("SELECT distinct products.ProductName from movedb.products order by ProductName")
@@ -675,6 +678,10 @@ class clase_ingresos(QWidget):
         #Busca por nombre de producto y numero de serie carga resultados en lista ingresos
         def Traer_Prod(self,Nombre):
                 try:
+                        self.cnx = mysql.connector.connect(user=self.conn['user'], 
+                                                        password=self.conn['password'],
+                                                        host=self.conn['host'],
+                                                        database=self.conn['database'])
                         aux = ''
                         cursor = self.cnx.cursor()
                         Nombre = self.ui.comboBox.currentText()
@@ -773,6 +780,10 @@ class clase_ingresos(QWidget):
         def Traer_Mov(self,Producto):
 
                 try:
+                        self.cnx = mysql.connector.connect(user=self.conn['user'], 
+                                                        password=self.conn['password'],
+                                                        host=self.conn['host'],
+                                                        database=self.conn['database'])
                         cursor = self.cnx.cursor()
                         query = ("SELECT t1.TransactionID,\
                                         t1.TransactionDate,\
@@ -851,6 +862,10 @@ class clase_ingresos(QWidget):
         def Actualizar_en_base(self):
                 if(self.ui.tableWidget.rowCount() > 0):
                         try:
+                                self.cnx = mysql.connector.connect(user=self.conn['user'], 
+                                                        password=self.conn['password'],
+                                                        host=self.conn['host'],
+                                                        database=self.conn['database'])
                                 cursor = self.cnx.cursor()
 
                                 for P in self.Ingresos:
