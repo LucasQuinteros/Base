@@ -1,7 +1,7 @@
 from typing import Text
 from PyQt5.QtGui import QColor
 from PyQt5 import QtWidgets,QtCore
-from PyQt5.QtWidgets import QDialog, QHeaderView, QMenu, QMessageBox, QTableView, QWidget
+from PyQt5.QtWidgets import QDialog, QHeaderView, QMenu, QMessageBox, QPlainTextEdit, QStyledItemDelegate, QTableView, QTextEdit, QWidget
 from lib.Funciones_Movimientos import clase_movimientos
 from lib.Item import *
 from qts.Ui_ventana_ingresos import Ui_Form
@@ -26,11 +26,17 @@ class clase_Coincidencias(QWidget):
                 self.seleccion = list()
 
         #muestra los datos obtenidos del query
-        def cargar_data(self, data):
+        def cargar_data(self, data, cantidad = ''):
                 while (self.ui.tableWidget.rowCount() > 0):
                         self.ui.tableWidget.removeRow(0)
                 for row in data:
-                        add_table(convert(row), self.ui)
+                        fila = convert(row)
+                        if(cantidad != ''):
+                            if(int(fila[2]) >= int(cantidad)): 
+                                add_table(fila, self.ui)
+                                
+                        else:
+                            add_table(fila,self.ui)
                              
                 self.ui.tableWidget.horizontalHeader().resizeSections(QHeaderView.ResizeToContents)
                 #self.ui.tableWidget.horizontalHeader().setSectionResizeMode(5,QHeaderView.Stretch)
@@ -105,11 +111,13 @@ class clase_ingresos(QWidget):
                 self.ui.pushButton_6.clicked.connect(self.agregar_movimiento)
                 
 
-                
+                Multiline = BlobDelegate()
+                Multiline.Signalresize.connect(self.proc_reajustar)
                 self.ui.tableWidget.setContextMenuPolicy(QtCore.Qt.CustomContextMenu) 
                 self.ui.tableWidget.customContextMenuRequested.connect(self.generateMenu)
                 self.ui.tableWidget.viewport().installEventFilter(self)
                 self.ui.tableWidget.itemChanged.connect(self.changed)
+                self.ui.tableWidget.setItemDelegateForColumn(4, Multiline)
                 
                 
                 self.ui.tableWidget_2.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
@@ -155,8 +163,13 @@ class clase_ingresos(QWidget):
                         item = QtWidgets.QTableWidgetItem(str(column))
                         item = self.ui.tableWidget_2.setItem(0, i, item)
                 '''
+        
         def Actualizar_Conector(self,conn):
                 self.conn = conn
+
+        @QtCore.pyqtSlot()
+        def proc_reajustar(self):
+                self.ui.tableWidget.verticalHeader().resizeSections(QHeaderView.ResizeToContents)
 
         def Limpiar_selecciones(self):
                 if(self.ui.tableWidget.selectedItems() !=[]):
@@ -694,6 +707,7 @@ class clase_ingresos(QWidget):
                         ubifis = self.ui.comboBox_3.currentText()
                         ubiexac = self.ui.comboBox_4.currentText()
                         estado = self.ui.comboBox_6.currentText()
+                        cantidad = self.ui.lineEdit_3.text()
 
                         reqSerie =  "products.SerialNumber Like '"+ NumSerie + "%' "
                         reqNombre = "products.ProductName Like concat('%' ,'"+ Nombre + "' ,'%') "
@@ -760,8 +774,10 @@ class clase_ingresos(QWidget):
 
                         filas = self.ui.tableWidget.rowCount()
                         agregar = True
-                               
-                        self.ventana.cargar_data(data)
+                        if(cantidad != ''):
+                                self.ventana.cargar_data(data,cantidad)
+                        else:
+                                self.ventana.cargar_data(data)
                         self.ventana.dialog.show()
   
 
@@ -1034,6 +1050,7 @@ class clase_ingresos(QWidget):
                         
                 
 
+
                         
 
 
@@ -1046,10 +1063,29 @@ def convert(in_data):
         return tuple(map(cvt, in_data))
 
 class BlobDelegate(QtWidgets.QStyledItemDelegate):
+        Signalresize = QtCore.pyqtSignal()
+        def createEditor(self, parent: QWidget, option: 'QStyleOptionViewItem', index: QtCore.QModelIndex) -> QWidget:
+            parent = QTextEdit(parent)
+            
+            return parent
+
+        def setEditorData(self, editor: QWidget, index: QtCore.QModelIndex) -> None:
+            
+            editor.setText(index.data())
+        
+        def setModelData(self, editor: QWidget, model: QtCore.QAbstractItemModel, index: QtCore.QModelIndex) -> None:
+            model.setData(index, editor.toPlainText())
+            self.Signalresize.emit()
+                        
+            
+            
+
+
         def displayText(self, value, locale):
-            if isinstance(value, QtCore.QByteArray):
-                value = value.data().decode()
-            return super(BlobDelegate, self).displayText(value, locale)
+                #value = value + '1'
+                if isinstance(value, QtCore.QByteArray):
+                        value = value.data().decode() + '1'
+                return super(BlobDelegate, self).displayText(value, locale)
 
 
 def add_table(columns, ui):

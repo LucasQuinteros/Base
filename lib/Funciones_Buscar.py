@@ -226,6 +226,7 @@ class clase_buscar(QWidget):
                     ubifis = self.ui.comboBox_2.currentText()
                     ubiexac = self.ui.comboBox_4.currentText()
                     estado = self.ui.comboBox_6.currentText()
+                    cantidad = self.ui.lineEdit_3.text()
 
                     reqSerie =  "products.SerialNumber Like '"+ NumSerie + "%' "
                     reqNombre = "products.ProductName Like concat('%' ,'"+ Nombre + "' ,'%') "
@@ -235,6 +236,7 @@ class clase_buscar(QWidget):
                     reqUbiFis = "ubicacionfisica.UbicacionFisicaName Like '"+ubifis+"' "
                     reqUbiExac = "ubicacionexacta.UbicacionExactaName Like '"+ubiexac+"' "
                     reqEstado = "estado.Estado Like '"+ estado +"' "
+                    #No aplicar este metodo para filtrar por las cantidades
 
                     req = list()
                         
@@ -254,6 +256,7 @@ class clase_buscar(QWidget):
                                 req.append(reqUbiExac)
                     if(estado != '' and estado != 'None'):
                                 req.append(reqEstado)
+                    
                         
                         
                     if len(req) > 1:
@@ -288,7 +291,14 @@ class clase_buscar(QWidget):
                     data = cursor.fetchall()
 
                     for row in data:
-                        add_table(convert(row), self.ui)
+                        fila = convert(row)
+                        
+                        if(cantidad != ''):
+                            if(int(fila[2]) >= int(cantidad)): 
+                                add_table(fila, self.ui)
+                                
+                        else:
+                            add_table(fila,self.ui)
                             
                     
                     self.ui.tableWidget.horizontalHeader().resizeSections(QHeaderView.ResizeToContents)
