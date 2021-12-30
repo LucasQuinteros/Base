@@ -27,12 +27,25 @@ class clase_configuraciones(QWidget):
                 self.ui.pushButton_3.clicked.connect(self.Guardar_datos)
         def getsettingsvalues(self):
                 self.settings_conn = QtCore.QSettings('Base','Variables')
-                self.connector = self.settings_conn.value('dict')
+                self.aux = self.settings_conn.value('dict') 
+                try:
+                        self.ui.lineEdit.setText( self.aux['user'] )
+                        self.ui.lineEdit_2.setText(self.aux['password'] )
+                        self.ui.lineEdit_3.setText(self.aux['host'] )
+                        self.ui.lineEdit_4.setText(self.aux['database'] )
+                except:
+                        self.connector = {}
+                        self.connector['user'] = 'root'
+                        self.connector['password'] = '12345678'
+                        self.connector['host'] = '10.0.0.50'
+                        self.connector['database'] = 'movedb'
+                        self.ui.lineEdit.setText(self.connector['user'] )
+                        self.ui.lineEdit_2.setText(self.connector['password'] )
+                        self.ui.lineEdit_3.setText(self.connector['host'] )
+                        self.ui.lineEdit_4.setText(self.connector['database'] )
+                else:
+                        self.connector = self.aux
 
-                self.ui.lineEdit.setText( self.connector['user'] )
-                self.ui.lineEdit_2.setText(self.connector['password'] )
-                self.ui.lineEdit_3.setText(self.connector['host'] )
-                self.ui.lineEdit_4.setText(self.connector['database'] )
 
 
         def Guardar_datos(self):
