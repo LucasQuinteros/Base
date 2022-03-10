@@ -11,6 +11,7 @@ from lib.Funciones_Nuevo import clase_nuevo
 from lib.Funciones_Ingresos import clase_ingresos
 from lib.Funciones_Configuraciones import clase_configuraciones
 from lib.Funciones_MenuPrincipal import clase_principal
+
 from qts.Ui_Menu_principal import Ui_MainWindow
 
 lastindex = 0
@@ -29,7 +30,7 @@ def GotoModificar(arg):
         Pag_modificar.setparams(item)
         print(item)
 
-def GotoMovimientos(arg):
+def GotoMovimientos(arg):py
     widget.setCurrentIndex(4)
     if( type(arg) != bool):
         if( type(arg)!= int):

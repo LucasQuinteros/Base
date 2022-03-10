@@ -12,6 +12,7 @@ from lib.Funciones_Movimientos import clase_movimientos
 from lib.Funciones_Nuevo import clase_nuevo
 from lib.Funciones_Ingresos import clase_ingresos
 from lib.Funciones_Configuraciones import clase_configuraciones
+from lib.Funciones_Tablas import clase_tablas
 
 from qts.Ui_Menu_principal import Ui_MainWindow
 
@@ -26,6 +27,7 @@ class clase_principal(QWidget):
         self.Pag_nuevo = clase_nuevo()
         self.Pag_movimientos = clase_movimientos('Pag_busqueda')
         self.Pag_ingresos = clase_ingresos(self.Pag_configuraciones.connector)
+        self.Pag_tablas = clase_tablas(self.Pag_configuraciones.connector)
 
         self.widget = QtWidgets.QStackedWidget()
         self.widget.setMinimumSize(1600,1200)
@@ -36,6 +38,7 @@ class clase_principal(QWidget):
         self.ui.Boton_Ingreso.clicked.connect(self.GotoIngreso)
         self.ui.Boton_Buscar.clicked.connect(self.GotoBuscar)
         self.ui.Boton_Config.clicked.connect(self.GotoConfig)
+        self.ui.Boton_Tablas.clicked.connect(self.GotoTablas)
         self.widget.addWidget(self.MainWindow)
         
         self.Pag_Busqueda.ui.pushButton.clicked.connect(self.Pag_Busqueda.request)
@@ -66,6 +69,9 @@ class clase_principal(QWidget):
         self.Pag_configuraciones.procCargar.connect(self.proc_cargar)
         self.Pag_configuraciones.ui.pushButton_2.clicked.connect(self.ir_menu)
         self.widget.addWidget(self.Pag_configuraciones.widget)
+
+        self.Pag_tablas.ui.pushButton.clicked.connect(self.ir_menu)
+        self.widget.addWidget(self.Pag_tablas.widget)
         
         self.widget.setWindowTitle('Base v1.0')
         self.widget.showMaximized()
@@ -137,3 +143,6 @@ class clase_principal(QWidget):
 
     def GotoConfig(self):
         self.widget.setCurrentIndex(6)
+
+    def GotoTablas(self):
+        self.widget.setCurrentIndex(7)

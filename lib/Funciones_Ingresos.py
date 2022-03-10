@@ -94,8 +94,6 @@ class clase_ingresos(QWidget):
                 self.ventana_movi.procIngresos.connect(self.proc_cargar)
                 self.ventana_movi.ui.pushButton.clicked.connect(self.ventana_movi.widget.close)
 
-                
-                
                 self.ui.comboBox_2.currentTextChanged.connect(lambda: self.handlercambio('Cat'))
                 self.ui.comboBox_3.currentTextChanged.connect(lambda: self.handlercambio('UbiFis'))
                 self.ui.comboBox_4.currentTextChanged.connect(lambda: self.handlercambio('UbiExac'))
