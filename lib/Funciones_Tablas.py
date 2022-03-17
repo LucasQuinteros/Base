@@ -17,7 +17,7 @@ class clase_tablas(QWidget):
         self.ui.comboBox_3.addItem('')
         self.ui.comboBox_4.addItem('')
         self.Cargar_Ubicaciones()
-
+        print("Holas")
         self.ui.pushButton_3.clicked.connect(self.Buscar_Filtrar)
         
 
