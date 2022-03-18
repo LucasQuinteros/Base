@@ -131,7 +131,7 @@
            <item>
             <widget class="QPushButton" name="pushButton_3">
              <property name="text">
-              <string>Buscar</string>
+              <string>Limpiar campos</string>
              </property>
             </widget>
            </item>

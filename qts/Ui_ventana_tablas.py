@@ -191,7 +191,7 @@ class Ui_Form(object):
         self.label_5.setText(_translate("Form", "Puerta"))
         self.label_6.setText(_translate("Form", "Sección"))
         self.label_91.setText(_translate("Form", "Posición"))
-        self.pushButton_3.setText(_translate("Form", "Buscar"))
+        self.pushButton_3.setText(_translate("Form", "Limpiar campos"))
         self.pushButton_4.setText(_translate("Form", "Agregar Posic¡ón"))
         self.label.setText(_translate("Form", "Ubicación Exacta:"))
         self.label_7.setText(_translate("Form", "Ubicacion"))
