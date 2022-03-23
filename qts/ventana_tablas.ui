@@ -46,8 +46,22 @@
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout">
+           <property name="sizeConstraint">
+            <enum>QLayout::SetMinimumSize</enum>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
            <item>
             <widget class="QLabel" name="label_3">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>Objeto</string>
              </property>
@@ -55,6 +69,17 @@
            </item>
            <item>
             <widget class="QComboBox" name="comboBox">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
              <property name="editable">
               <bool>true</bool>
              </property>
@@ -64,6 +89,11 @@
             <layout class="QVBoxLayout" name="verticalLayout_3">
              <item>
               <widget class="QLabel" name="label_4">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>Nombre/Número</string>
                </property>
@@ -71,6 +101,11 @@
              </item>
              <item>
               <widget class="QLabel" name="label_5">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>Puerta</string>
                </property>
@@ -78,6 +113,11 @@
              </item>
              <item>
               <widget class="QLabel" name="label_6">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>Sección</string>
                </property>
@@ -85,6 +125,11 @@
              </item>
              <item>
               <widget class="QLabel" name="label_91">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>Posición</string>
                </property>
@@ -96,6 +141,17 @@
             <layout class="QVBoxLayout" name="verticalLayout_4">
              <item>
               <widget class="QComboBox" name="comboBox_2">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
                <property name="editable">
                 <bool>true</bool>
                </property>
@@ -103,6 +159,17 @@
              </item>
              <item>
               <widget class="QComboBox" name="comboBox_3">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
                <property name="editable">
                 <bool>true</bool>
                </property>
@@ -110,6 +177,17 @@
              </item>
              <item>
               <widget class="QComboBox" name="comboBox_4">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
                <property name="editable">
                 <bool>true</bool>
                </property>
@@ -117,6 +195,17 @@
              </item>
              <item>
               <widget class="QComboBox" name="comboBox_5">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
                <property name="editable">
                 <bool>true</bool>
                </property>
@@ -128,15 +217,53 @@
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <property name="sizeConstraint">
+            <enum>QLayout::SetFixedSize</enum>
+           </property>
            <item>
             <widget class="QPushButton" name="pushButton_3">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
              <property name="text">
-              <string>Limpiar campos</string>
+              <string> Limpiar campos
+Ubicacion Fisica</string>
              </property>
             </widget>
            </item>
            <item>
             <widget class="QPushButton" name="pushButton_4">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>Agregar Posic¡ón</string>
              </property>
@@ -152,7 +279,33 @@
           </widget>
          </item>
          <item>
-          <widget class="QListWidget" name="listWidget"/>
+          <widget class="QTableWidget" name="tableWidget">
+           <column>
+            <property name="text">
+             <string>Nombre</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Objeto</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Numero</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Puerta</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Seccion</string>
+            </property>
+           </column>
+          </widget>
          </item>
         </layout>
        </item>
@@ -177,6 +330,11 @@
           <layout class="QHBoxLayout" name="horizontalLayout_5">
            <item>
             <widget class="QLabel" name="label_7">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>Ubicacion</string>
              </property>
@@ -184,6 +342,11 @@
            </item>
            <item>
             <widget class="QComboBox" name="comboBox_6">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
              <property name="editable">
               <bool>true</bool>
              </property>
@@ -193,6 +356,11 @@
             <layout class="QVBoxLayout" name="verticalLayout_5">
              <item>
               <widget class="QLabel" name="label_8">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>Nombre/Número</string>
                </property>
@@ -200,6 +368,11 @@
              </item>
              <item>
               <widget class="QLabel" name="label_9">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>Puerta</string>
                </property>
@@ -207,6 +380,11 @@
              </item>
              <item>
               <widget class="QLabel" name="label_10">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>Sección</string>
                </property>
@@ -214,6 +392,11 @@
              </item>
              <item>
               <widget class="QLabel" name="label_92">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>Estante</string>
                </property>
@@ -225,6 +408,11 @@
             <layout class="QVBoxLayout" name="verticalLayout_6">
              <item>
               <widget class="QComboBox" name="comboBox_7">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
                <property name="editable">
                 <bool>true</bool>
                </property>
@@ -232,6 +420,11 @@
              </item>
              <item>
               <widget class="QComboBox" name="comboBox_8">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
                <property name="editable">
                 <bool>true</bool>
                </property>
@@ -239,6 +432,11 @@
              </item>
              <item>
               <widget class="QComboBox" name="comboBox_9">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
                <property name="editable">
                 <bool>true</bool>
                </property>
@@ -246,6 +444,11 @@
              </item>
              <item>
               <widget class="QComboBox" name="comboBox_10">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
                <property name="editable">
                 <bool>true</bool>
                </property>
@@ -259,13 +462,36 @@
           <layout class="QHBoxLayout" name="horizontalLayout_6">
            <item>
             <widget class="QPushButton" name="pushButton_5">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
              <property name="text">
-              <string>Buscar</string>
+              <string>Limpiar campos
+Ubicacion Exacta</string>
              </property>
             </widget>
            </item>
            <item>
             <widget class="QPushButton" name="pushButton_6">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>Agregar Posic¡ón</string>
              </property>
@@ -281,7 +507,38 @@
           </widget>
          </item>
          <item>
-          <widget class="QListWidget" name="listWidget_2"/>
+          <widget class="QTableWidget" name="tableWidget_2">
+           <column>
+            <property name="text">
+             <string>Nombre</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Objeto</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Numero</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Puerta</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Seccion</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Estante</string>
+            </property>
+           </column>
+          </widget>
          </item>
         </layout>
        </item>
@@ -299,14 +556,18 @@
         <number>20</number>
        </property>
        <item>
-        <widget class="QPushButton" name="pushButton_2">
-         <property name="text">
-          <string>Guardar Cambios</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QPushButton" name="pushButton">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>Volver</string>
          </property>

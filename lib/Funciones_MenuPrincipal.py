@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QApplication, QDialog, QMainWindow, QSizePolicy, QTableWidgetItem,QTableWidget,QTableView, QWidget
+from PyQt5.QtWidgets import QApplication, QDialog, QMainWindow, QSizePolicy, QTableWidgetItem,QTableWidget,QTableView, QWidget,QDesktopWidget
 from PyQt5 import QtSql,QtWidgets,QtCore
 from PyQt5.QtCore import QSettings, Qt
 
@@ -30,8 +30,14 @@ class clase_principal(QWidget):
         self.Pag_tablas = clase_tablas(self.Pag_configuraciones.connector)
 
         self.widget = QtWidgets.QStackedWidget()
-        self.widget.setMinimumSize(1600,1200)
+        self.widget.setMinimumSize(1360,700)
         self.widget.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)
+        self.monitor = QDesktopWidget().screenGeometry(1)
+        self.widget.move(self.monitor.left(),self.monitor.top())
+        if(self.monitor.height()>1000 and self.monitor.width()>900  ):
+            self.widget.showMaximized()
+        else:
+            self.widget.show()
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self.MainWindow)
@@ -74,7 +80,7 @@ class clase_principal(QWidget):
         self.widget.addWidget(self.Pag_tablas.widget)
         
         self.widget.setWindowTitle('Base v1.0')
-        self.widget.showMaximized()
+        self.widget.show()
 
         self.Probar_conexion()
     @QtCore.pyqtSlot(bool)

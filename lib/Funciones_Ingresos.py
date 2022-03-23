@@ -17,6 +17,7 @@ class clase_Coincidencias(QWidget):
         def __init__(self):
                 super().__init__()
                 self.dialog = QDialog()
+                self.dialog.setMinimumSize(1366,600)
                 self.ui = Ui_Dialog()
                 self.ui.setupUi(self.dialog)
                 self.data = ''
@@ -776,6 +777,7 @@ class clase_ingresos(QWidget):
                                 self.ventana.cargar_data(data,cantidad)
                         else:
                                 self.ventana.cargar_data(data)
+                        
                         self.ventana.dialog.show()
   
 

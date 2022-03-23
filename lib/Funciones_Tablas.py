@@ -1,8 +1,9 @@
 import errno
 from msilib.schema import ListView
 import string
+from types import NoneType
 from xml.dom.minidom import TypeInfo
-from PyQt5.QtWidgets import QListWidgetItem, QMessageBox, QWidget,QComboBox
+from PyQt5.QtWidgets import QListWidgetItem, QMessageBox, QWidget,QComboBox,QTableWidgetItem,QTableWidget,QHeaderView
 from PyQt5 import QtCore
 import mysql.connector
 from mysql.connector import errorcode
@@ -23,25 +24,34 @@ class clase_tablas(QWidget):
         self.ui.comboBox_4.addItem('')
         self.Cargar_Ubicaciones()
         
-        '''
-        self.ui.comboBox.currentIndexChanged.connect(  partial(self.Filtro, self.ui.comboBox) )
-        self.ui.comboBox_2.currentIndexChanged.connect(partial(self.Filtro, self.ui.comboBox_2) )
-        self.ui.comboBox_3.currentIndexChanged.connect(partial(self.Filtro, self.ui.comboBox_3) )
-        self.ui.comboBox_4.currentIndexChanged.connect(partial(self.Filtro, self.ui.comboBox_4) )
-        self.ui.comboBox_5.currentIndexChanged.connect(partial(self.Filtro, self.ui.comboBox_5) )
-        '''
         for combobox in self.widget.findChildren(QComboBox):
             if(str(combobox.objectName) <= str(self.ui.comboBox_5.objectName) ):
-                combobox.currentTextChanged.connect(self.Filtro)
-        self.ui.pushButton_3.clicked.connect(self.Limpiar)
+                combobox.currentTextChanged.connect(self.Filtro3)
+        
+        for combobox in self.widget.findChildren(QComboBox):
+            if(str(combobox.objectName) >= str(self.ui.comboBox_6.objectName) ):
+                
+                combobox.currentTextChanged.connect(self.Filtro3)
+
+        self.ui.pushButton_3.clicked.connect(lambda: self.Limpiar(self.ui.pushButton_3))
         self.ui.pushButton_4.clicked.connect(self.AgregarPosi)
 
-        #self.ui.listWidget.currentItemChanged.connect(self.seleccion)
+        self.ui.pushButton_5.clicked.connect(lambda: self.Limpiar(self.ui.pushButton_5))
+        #self.ui.pushButton_6.clicked.connect(self.AgregarPosi)
 
-    def Limpiar(self):
-        for combobox in self.widget.findChildren(QComboBox):
-            if(str(combobox.objectName) <= str(self.ui.comboBox_5.objectName) ):
-                combobox.setCurrentIndex(0)
+        self.ui.tableWidget.cellClicked.connect(self.seleccion2)
+        
+        self.ui.tableWidget_2.cellClicked.connect(self.seleccion2)
+
+    def Limpiar(self,boton):
+        if(boton == self.ui.pushButton_3):
+            for combobox in self.widget.findChildren(QComboBox):
+                if(str(combobox.objectName) <= str(self.ui.comboBox_5.objectName) ):
+                    combobox.setCurrentIndex(0)
+        elif(boton == self.ui.pushButton_5):
+            for combobox in self.widget.findChildren(QComboBox):
+                if(str(combobox.objectName) >= str(self.ui.comboBox_6.objectName) ):
+                    combobox.setCurrentIndex(0)
 
     def AgregarPosi(self):
         
@@ -59,20 +69,18 @@ class clase_tablas(QWidget):
         filtro = ""
         for item in lista_combobox:
             if(filtro == ""):
-                filtro = item
+                filtro = item.strip()
             else: 
                 if(item != ""):
-                    filtro = filtro + " " + item 
+                    filtro = filtro + " " + item.strip()
 
-        filtro = filtro[0:-2]
+        
         #print(filtro)
         if(filtro != ""):
-            #self.ui.listWidget.addItem(filtro)
+            
            
             aux = [(filtro,)]
-            #print(aux)
             
-            #self.Interprete(aux, self.ui.listWidget)
             try:
                 self.cnx = mysql.connector.connect( user=self.conn['user'], 
                                                     password=self.conn['password'],
@@ -101,8 +109,304 @@ class clase_tablas(QWidget):
 
 
     def seleccion(self, value):
-        print(value.text())
-        self.ui.listWidget.se
+        if(value != NoneType):
+            print(value.text())
+            
+            aux = list(['','',' ',' ',' '])
+                        
+            r = value.text()
+            r = r.split()
+            #print(r)
+            Ubifis = Ubicacion_Fisica(r[0])
+                        
+            for p in range(len(r)):
+                    aux[p] = r[p]
+                   
+            
+            #Objeto
+            self.ui.comboBox.setCurrentText(aux[0])
+
+                
+
+            #Nombre num
+            self.ui.comboBox_2.setCurrentText(aux[1])
+                
+
+            #Puerta
+            self.ui.comboBox_3.setCurrentText(aux[2][1:])
+
+
+            #Seccion
+            self.ui.comboBox_4.setCurrentText(aux[3])
+                       
+            #Posicion
+            self.ui.comboBox_5.setCurrentText(aux[4])
+                        
+    def seleccion2(self, value):
+        
+        tabla = self.sender()
+        aux = list()
+        if(value != NoneType and tabla == self.ui.tableWidget):
+            for i in range(tabla.columnCount()):
+                if( i!= 1 ):
+                    aux.append(str(tabla.item(value,i).text() ) ) 
+
+            i = 0 
+            for combobox in self.widget.findChildren(QComboBox): 
+                if(str(combobox.objectName) <= str(self.ui.comboBox_4.objectName)):
+                    if(i == 0 ):
+                        combobox.setCurrentText(aux[i].split()[0])
+                    else:
+                        combobox.setCurrentText(aux[i])
+                    i = i + 1 
+
+        elif(value != NoneType and tabla == self.ui.tableWidget_2):
+
+            for i in range(tabla.columnCount()):
+                if( i!= 1 ):
+                    aux.append(str(tabla.item(value,i).text() ) ) 
+
+            i = 0 
+            for combobox in self.widget.findChildren(QComboBox): 
+                if(str(combobox.objectName) >= str(self.ui.comboBox_6.objectName)):
+                    if(i == 0 ):
+                        combobox.setCurrentText(aux[i].split()[0])
+                    else:
+                        combobox.setCurrentText(aux[i])
+                    i = i + 1 
+                
+
+    def Filtro3(self):
+
+        combo = self.sender()
+        lista_req = list()
+
+        if( str(combo.objectName) <= str(self.ui.comboBox_5.objectName) ):
+            
+            while self.ui.tableWidget.rowCount() != 0:
+                self.ui.tableWidget.removeRow(0)
+            
+            for combobox in self.widget.findChildren(QComboBox):
+                if(str(combobox.objectName) <= str(self.ui.comboBox_5.objectName)):
+                    combobox.currentTextChanged.disconnect()
+                    save = combobox.currentText()
+                    if(combobox != self.ui.comboBox):
+                        combobox.clear()
+                        combobox.addItem("")
+                    combobox.setCurrentText(save)
+
+            for combobox in self.widget.findChildren(QComboBox):
+                if(str(combobox.objectName) <= str(self.ui.comboBox_5.objectName) ):
+                    if(combobox.currentText() != ""):
+                        if(combobox == self.ui.comboBox):
+                            Ubicacion =  combobox.currentText().strip()
+                            reqUbicacion = "UbicacionFisicaName like '%"+ Ubicacion +"%'"
+                            lista_req.append(reqUbicacion)
+                        elif(combobox == self.ui.comboBox_2):
+                            Numero = combobox.currentText().strip()
+                            reqNumero = "Numero like '%"+ Numero +"%'"
+                            lista_req.append(reqNumero)
+                        elif(combobox == self.ui.comboBox_3):
+                            Puerta=combobox.currentText().strip()
+                            reqPuerta = "Puerta like '%"+ Puerta +"%'"
+                            lista_req.append(reqPuerta)
+                        elif(combobox == self.ui.comboBox_4):
+                            Seccion = combobox.currentText().strip()
+                            reqSeccion = "Seccion like '%"+ Seccion +"%'"
+                            lista_req.append(reqSeccion)
+            filtro = ''
+            aux = ''
+            if (len(lista_req) == 1):
+                
+                filtro = 'where '+ lista_req[0]
+            elif (len(lista_req) > 1):
+                
+                for reqpart in lista_req:
+                    aux = aux + reqpart + " and "
+                filtro ='where '+ aux[:-5]
+            
+            try:
+                self.cnx = mysql.connector.connect( user=self.conn['user'], 
+                                                    password=self.conn['password'],
+                                                    host=self.conn['host'],
+                                                    database=self.conn['database'])
+
+                cursor = self.cnx.cursor()
+                #ubiexacta
+                query = ("SELECT UbicacionFisicaName,Objeto,Numero,Puerta,Seccion FROM movedb.ubicacionfisica\
+                            "+ filtro +" \
+                            order by ubicacionfisica.UbicacionFisicaName asc")
+                
+                cursor.execute(query)
+                records = cursor.fetchall()
+                self.Interprete2(records, self.ui.tableWidget)  
+
+            except mysql.connector.Error as err:
+                if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                        print("Something is wrong with your user name or password")
+                elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                        print("Database does not exist")
+                else:
+                        print(err)
+            else:
+                    cursor.close()
+
+            for combobox in self.widget.findChildren(QComboBox):
+                if(str(combobox.objectName) <= str(self.ui.comboBox_5.objectName) ):
+                    combobox.currentTextChanged.connect(self.Filtro3)
+
+            
+
+        elif( str(combo.objectName) >= str(self.ui.comboBox_6.objectName) ):
+
+            
+            while self.ui.tableWidget_2.rowCount() != 0:
+                self.ui.tableWidget_2.removeRow(0)
+            
+            for combobox in self.widget.findChildren(QComboBox):
+                if(str(combobox.objectName) >= str(self.ui.comboBox_6.objectName)):
+                    combobox.currentTextChanged.disconnect()
+                    save = combobox.currentText()
+                    if(combobox != self.ui.comboBox_6):
+                        combobox.clear()
+                        combobox.addItem("")
+                    combobox.setCurrentText(save)
+
+            for combobox in self.widget.findChildren(QComboBox):
+                if(str(combobox.objectName) >= str(self.ui.comboBox_6.objectName) ):
+                    if(combobox.currentText() != ""):
+                        if(combobox == self.ui.comboBox_6):
+                            Ubicacion =  combobox.currentText().strip()
+                            reqUbicacion = "UbicacionExactaName like '%"+ Ubicacion +"%'"
+                            lista_req.append(reqUbicacion)
+                        elif(combobox == self.ui.comboBox_7):
+                            Numero = combobox.currentText().strip()
+                            reqNumero = "Numero like '%"+ Numero +"%'"
+                            lista_req.append(reqNumero)
+                        elif(combobox == self.ui.comboBox_8):
+                            Puerta=combobox.currentText().strip()
+                            reqPuerta = "Puerta like '%"+ Puerta +"%'"
+                            lista_req.append(reqPuerta)
+                        elif(combobox == self.ui.comboBox_9):
+                            Seccion = combobox.currentText().strip()
+                            reqSeccion = "Seccion like '%"+ Seccion +"%'"
+                            lista_req.append(reqSeccion)
+                        else:
+                            Estante = combobox.currentText().strip()
+                            reqEstante = "Estante like '%"+ Estante +"%'"
+                            lista_req.append(reqEstante)
+
+            filtro = ''
+            aux = ''
+            if (len(lista_req) == 1):
+                
+                filtro = 'where '+ lista_req[0]
+            elif (len(lista_req) > 1):
+                
+                for reqpart in lista_req:
+                    aux = aux + reqpart + " and "
+                filtro ='where '+ aux[:-5]
+            
+            try:
+                self.cnx = mysql.connector.connect( user=self.conn['user'], 
+                                                    password=self.conn['password'],
+                                                    host=self.conn['host'],
+                                                    database=self.conn['database'])
+
+                cursor = self.cnx.cursor()
+                #ubiexacta
+                query = ("SELECT UbicacionExactaName,Objeto,Numero,Puerta,Seccion,Estante FROM movedb.ubicacionexacta\
+                            "+ filtro +" \
+                            order by ubicacionexacta.UbicacionExactaName asc")
+                
+                cursor.execute(query)
+                records = cursor.fetchall()
+                self.Interprete2(records, self.ui.tableWidget_2)  
+            except mysql.connector.Error as err:
+                if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                        print("Something is wrong with your user name or password")
+                elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                        print("Database does not exist")
+                else:
+                        print(err)
+            else:
+                    cursor.close()
+
+            for combobox in self.widget.findChildren(QComboBox):
+                if(str(combobox.objectName) >= str(self.ui.comboBox_6.objectName) ):
+                    combobox.currentTextChanged.connect(self.Filtro3)
+
+    def Filtro2(self):
+        lista_combobox = list()
+        self.ui.listWidget_2.clear()
+        
+        for combobox in self.widget.findChildren(QComboBox):
+            if(str(combobox.objectName) >= str(self.ui.comboBox_6.objectName)):
+                combobox.currentTextChanged.disconnect()
+                save = combobox.currentText()
+                if(combobox != self.ui.comboBox_6):
+                    combobox.clear()
+                    combobox.addItem("")
+                combobox.setCurrentText(save)
+
+        for combobox in self.widget.findChildren(QComboBox):
+            if(str(combobox.objectName) >= str(self.ui.comboBox_6.objectName) ):
+                if(combobox == self.ui.comboBox_8 and combobox.currentText() != ""):
+                    lista_combobox.append("P"+combobox.currentText())
+                elif(combobox == self.ui.comboBox_9 and combobox.currentText() != ""):
+                    lista_combobox.append("Sec-"+combobox.currentText())
+                else:
+                    lista_combobox.append(combobox.currentText())
+                
+        filtro = ""
+        for item in lista_combobox:
+            if(filtro == ""):
+                filtro = item
+            else: 
+                if(item != ""):
+                    filtro = filtro + " " + item 
+
+        
+        filtro = filtro.strip()
+        
+        #print("filtro: "+ filtro)
+
+        try:
+            self.cnx = mysql.connector.connect( user=self.conn['user'], 
+                                                password=self.conn['password'],
+                                                host=self.conn['host'],
+                                                database=self.conn['database'])
+
+            cursor = self.cnx.cursor()
+            #ubiexacta
+            query = ("SELECT UbicacionExactaName,Objeto,Numero,Seccion,Puerta,Estante FROM movedb.ubicacionexacta\
+                        where UbicacionExactaName like '%"+ filtro +"%'\
+                        order by ubicacionexacta.UbicacionExactaName asc")
+            
+            cursor.execute(query)
+            records = cursor.fetchall()
+            self.Interprete2(records, self.ui.listWidget_2)
+            
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                    print("Something is wrong with your user name or password")
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                    print("Database does not exist")
+            else:
+                    print(err)
+        else:
+                cursor.close()
+        
+        for combobox in self.widget.findChildren(QComboBox):
+            if(str(combobox.objectName) >= str(self.ui.comboBox_6.objectName) ):
+                combobox.currentTextChanged.connect(self.Filtro2)
+                pass
+                '''
+                if(combobox.count() == 1 and combobox.currentText()== ""):
+                    combobox.setDisabled(1)
+                else:
+                    combobox.setDisabled(0)
+                '''
 
     def Filtro(self):
         
@@ -117,9 +421,6 @@ class clase_tablas(QWidget):
                     combobox.addItem("")
                 combobox.setCurrentText(save)
 
-
-        
-        
         for combobox in self.widget.findChildren(QComboBox):
             if(str(combobox.objectName) <= str(self.ui.comboBox_5.objectName) ):
                 if(combobox == self.ui.comboBox_3 and combobox.currentText() != ""):
@@ -140,7 +441,6 @@ class clase_tablas(QWidget):
         filtro = filtro[0:-2]
         
         #print("filtro: "+ filtro)
-
 
         try:
             self.cnx = mysql.connector.connect( user=self.conn['user'], 
@@ -187,8 +487,7 @@ class clase_tablas(QWidget):
         self.ui.comboBox_6.addItem("")
         self.ui.comboBox_7.addItem("")
         self.ui.comboBox_8.addItem("")
-        #Ubi_fisica = QListWidgetItem("Prueba")
-        #self.ui.listWidget.addItem(Ubi_fisica)
+
           
         try:
             self.cnx = mysql.connector.connect( user=self.conn['user'], 
@@ -198,21 +497,21 @@ class clase_tablas(QWidget):
 
             cursor = self.cnx.cursor()
             #ubifisica
-            query = ("SELECT distinct UbicacionFisicaName FROM movedb.ubicacionfisica\
+            query = ("SELECT UbicacionFisicaName,Objeto,Numero,Puerta,Seccion FROM movedb.ubicacionfisica\
                         order by ubicacionfisica.UbicacionFisicaName asc")
             
             cursor.execute(query)
             records = cursor.fetchall()
 
-            self.Interprete(records, self.ui.listWidget)
+            self.Interprete2(records, self.ui.tableWidget)
 
             #ubiexacta
-            query = ("SELECT distinct UbicacionExactaID,UbicacionExactaName FROM movedb.ubicacionexacta\
-                                order by ubicacionexacta.UbicacionExactaID asc")             
+            query = ("SELECT UbicacionExactaName,Objeto,Numero,Puerta,Seccion,Estante FROM movedb.ubicacionexacta\
+                                order by ubicacionexacta.UbicacionExactaName asc")             
             cursor.execute(query)
             records = cursor.fetchall()
-            
-            self.Interprete(records, self.ui.listWidget_2)
+
+            self.Interprete2(records, self.ui.tableWidget_2)
 
             if( self.ui.comboBox_5.count() == 1):
                 self.ui.comboBox_5.setDisabled(1)
@@ -226,94 +525,69 @@ class clase_tablas(QWidget):
         else:
                 cursor.close()
 
-    def Interprete(self, records, lista):
-        if(lista == self.ui.listWidget):
-            
-            for row in records:  
-                        aux = list(['','',' ',' ',' '])
-                        
-                        r = row[0].split()
-                        #print(r)
-                        Ubifis = Ubicacion_Fisica(r[0])
-                        
-                        for p in range(len(r)):
-                            aux[p] = r[p]
-                            
-                        lista.addItem(row[0])
-                                 
-                        #Objeto
-                        if(self.ui.comboBox.findText(Ubifis.Objeto)< 0):
-
-                            self.ui.comboBox.addItem(Ubifis.Objeto)
-                            self.ListaUbiFis.append(Ubifis)
-
-                        #Nombre num
-                        if(self.ui.comboBox_2.findText(aux[1]) < 0):
-                            self.ui.comboBox_2.addItem(aux[1])
-
-                        #Puerta
-                        if(self.ui.comboBox_3.findText(aux[2][1:]) < 0):
-
-                            Puerta = aux[2]    
-                            if(Puerta[0] == 'P' ):
-                                self.ui.comboBox_3.addItem(aux[2][1:])
-                            if(Puerta[0:3] == 'Sec'):
-                                self.ui.comboBox_4.addItem(Puerta[4:])
-
-                        #Seccion
-                        if(self.ui.comboBox_4.findText(aux[3]) < 0):
-                            Sec = aux[3]
-                            if(Sec[0:3] == 'Sec'):       
-                                self.ui.comboBox_4.addItem(aux[3])
-
-                        #Posicion
-                        if(self.ui.comboBox_5.findText(aux[4]) < 0):
-                            self.ui.comboBox_5.addItem(aux[4])
-
-        elif(lista == self.ui.listWidget_2):
+                    
+    def Interprete2(self,records, tabla: QTableWidget):
+        if(tabla == self.ui.tableWidget):
             
             for row in records:
-                        aux = list(['','',' ',' ',' ',' '])
-                        
-                        r = row[1].split()
-                        #print(r)
-                        Ubiexac = Ubicacion_Exacta(r[0])
-                        
-                        for p in range(len(r)):
-                            aux[p] = r[p]
-                            
-                        lista.addItem(row[1])
-                                 
-                        #Objeto
-                        if(self.ui.comboBox_6.findText(Ubiexac.Objeto) < 0):
+                rowPosition = tabla.rowCount()
+                tabla.insertRow(rowPosition)
+                for i,item in enumerate(row):
+                    if(item == None):
+                        tabla.setItem(rowPosition,i,QTableWidgetItem(str(" ")))
+                    else:
+                        tabla.setItem(rowPosition,i,QTableWidgetItem(str(item)))
+                r = row[0].split()
 
-                            self.ui.comboBox_6.addItem(Ubiexac.Objeto)
-                            self.ListaUbiexac.append(Ubiexac)
+                if(r[0] != None and self.ui.comboBox.findText(r[0]) < 0):
+                    self.ui.comboBox.addItem(r[0] )
 
-                        #Nombre num
-                        if(self.ui.comboBox_7.findText(aux[1]) < 0):
-                            self.ui.comboBox_7.addItem(aux[1])
+                if(row[2] != None and self.ui.comboBox_2.findText(row[2])<0):
+                    self.ui.comboBox_2.addItem(row[2])
 
-                        #Puerta
-                        if(self.ui.comboBox_8.findText(aux[2][1:]) < 0):
+                if(row[3] != None and self.ui.comboBox_3.findText(row[3])<0):
+                    self.ui.comboBox_3.addItem(row[3])
 
-                            Puerta = aux[2]    
-                            if(Puerta[0] == 'P' ):
-                                self.ui.comboBox_8.addItem(aux[2][1:])
-                            if(Puerta[0:3] == 'Sec'):
-                                self.ui.comboBox_9.addItem(Puerta[4:])
+                if(row[4] != None and self.ui.comboBox_4.findText(row[4])<0):
+                    self.ui.comboBox_4.addItem(row[4])
 
-                        #Seccion
-                        if(self.ui.comboBox_9.findText(aux[3]) < 0):
-                            Sec = aux[3]
-                            if(Sec[0:3] == 'Sec-'):       
-                                self.ui.comboBox_9.addItem(aux[3])
+        if(tabla == self.ui.tableWidget_2):
+            if( self.ui.comboBox_9.findText("") == -1):
+                self.ui.comboBox_9.addItem("")
+            if( self.ui.comboBox_10.findText("") == -1):
+                self.ui.comboBox_10.addItem("")
+            self.ui.comboBox_7.setInsertPolicy(QComboBox.InsertAlphabetically)
+            
+            for row in records:
+                
+                rowPosition = tabla.rowCount()
+                tabla.insertRow(rowPosition)
+                ### todas las columnas
+                for i, column in enumerate(row ):
+                        if(column == None):
+                            tabla.setItem(rowPosition, i, QTableWidgetItem(str(" ")))
+                        else:
+                            tabla.setItem(rowPosition, i, QTableWidgetItem(str(column)))                 
 
-                        #Posicion
-                        if(self.ui.comboBox_10.findText(aux[4]) < 0):
-                            self.ui.comboBox_10.addItem(aux[4])
-                    
+                r = row[0].split()
 
+                if(r[0] != None and self.ui.comboBox_6.findText(r[0]) < 0):
+                    self.ui.comboBox_6.addItem(r[0] )
+
+                if(row[2] != None and self.ui.comboBox_7.findText(row[2])<0):
+                    self.ui.comboBox_7.addItem(row[2])
+
+                if(row[3] != None and self.ui.comboBox_8.findText(row[3])<0):
+                    self.ui.comboBox_8.addItem(row[3])
+
+                if(row[4] != None and self.ui.comboBox_9.findText(row[4])<0):
+                    self.ui.comboBox_9.addItem(row[4])
+
+                if(row[5] != None and self.ui.comboBox_10.findText(row[5])<0):
+                    self.ui.comboBox_10.addItem(row[5])
+
+        tabla.horizontalHeader().resizeSections(QHeaderView.ResizeToContents)
+        tabla.horizontalHeader().setSectionResizeMode(0,QHeaderView.Stretch)
 
 class Ubicacion_Fisica(object):
 
@@ -326,9 +600,9 @@ class Ubicacion_Fisica(object):
 
 class Ubicacion_Exacta(object):
 
-    def __init__(self,obj, Nombrenum = '', puerta = '', seccion = '', posi = '' ):
+    def __init__(self,obj, num = '', puerta = '', seccion = '', estante = '' ):
         self.Objeto = obj
-        self.NombreNum = Nombrenum
+        self.Num = num
         self.Puerta = puerta
         self.Seccion = seccion
-        self.Posicion = posi
+        self.Estante = estante
