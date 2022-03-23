@@ -104,6 +104,7 @@ if __name__ == '__main__':
     widget.setWindowTitle('Base v1.0')
     '''
     
+    
     #Myapp.widget.showMaximized()
     
     sys.exit(app.exec_())
