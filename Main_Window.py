@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QApplication, QDialog, QMainWindow, QSizePolicy, QTa
 from PyQt5 import QtSql,QtWidgets,QtCore
 from PyQt5.QtCore import QSettings, Qt
 
+
 import sys
 
 from lib.Funciones_Buscar import clase_buscar

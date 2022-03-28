@@ -1,7 +1,7 @@
 import errno
 from msilib.schema import ListView
 import string
-from types import NoneType
+
 from xml.dom.minidom import TypeInfo
 from PyQt5.QtWidgets import QListWidgetItem, QMessageBox, QWidget,QComboBox,QTableWidgetItem,QTableWidget,QHeaderView
 from PyQt5 import QtCore
@@ -10,6 +10,7 @@ from mysql.connector import errorcode
 from functools import partial
 from qts.Ui_ventana_tablas import Ui_Form
 
+NoneType = type(None)
 class clase_tablas(QWidget):
     
     def __init__(self, conn):
@@ -37,7 +38,7 @@ class clase_tablas(QWidget):
         self.ui.pushButton_4.clicked.connect(self.AgregarPosi)
 
         self.ui.pushButton_5.clicked.connect(lambda: self.Limpiar(self.ui.pushButton_5))
-        #self.ui.pushButton_6.clicked.connect(self.AgregarPosi)
+        self.ui.pushButton_6.clicked.connect(self.AgregarPosi)
 
         self.ui.tableWidget.cellClicked.connect(self.seleccion2)
         
@@ -56,92 +57,115 @@ class clase_tablas(QWidget):
     def AgregarPosi(self):
         
         lista_combobox = list()
-
-        for combobox in self.widget.findChildren(QComboBox):
-            if(str(combobox.objectName) <= str(self.ui.comboBox_5.objectName) ):
-                if(combobox == self.ui.comboBox_3 and combobox.currentText() != ""):
-                    lista_combobox.append("P"+combobox.currentText())
-                elif(combobox == self.ui.comboBox_4 and combobox.currentText() != ""):
-                    lista_combobox.append("Sec-"+combobox.currentText())
-                else:
-                    lista_combobox.append(combobox.currentText())
-                
-        filtro = ""
-        for item in lista_combobox:
-            if(filtro == ""):
-                filtro = item.strip()
-            else: 
-                if(item != ""):
-                    filtro = filtro + " " + item.strip()
-
-        
-        #print(filtro)
-        if(filtro != ""):
-            
-           
-            aux = [(filtro,)]
-            
-            try:
-                self.cnx = mysql.connector.connect( user=self.conn['user'], 
-                                                    password=self.conn['password'],
-                                                    host=self.conn['host'],
-                                                    database=self.conn['database'])
-
-                cursor = self.cnx.cursor()
-                #ubifisica
-                query = ("INSERT INTO movedb.ubicacionfisica (UbicacionFisicaName)\
-                            VALUES ('"+ filtro +"');")
+        if( self.sender() == self.ui.pushButton_4 ):
+            Objeto = ''
+            Numero = ''
+            Seccion = ''
+            Puerta = ''
+                      
+            for combobox in self.widget.findChildren(QComboBox):
+                if(str(combobox.objectName) <= str(self.ui.comboBox_5.objectName) ):
+                    if(combobox.currentText() != ""):
+                        if(combobox == self.ui.comboBox_3 ):
+                            lista_combobox.append("P"+combobox.currentText())
+                            Puerta = combobox.currentText()
                             
+                        elif(combobox == self.ui.comboBox_4):
+                            lista_combobox.append("Sec-"+combobox.currentText())
+                            Seccion = combobox.currentText()
+                            
+                        elif(combobox == self.ui.comboBox_2):
+                            Numero = combobox.currentText()
+                            lista_combobox.append(combobox.currentText())
+                                
+                        elif(combobox == self.ui.comboBox):                        
+                            Objeto = combobox.currentText()
+                            lista_combobox.append(combobox.currentText())
+                            
+                        else:
+                            lista_combobox.append(combobox.currentText())
+                    
+            filtro = ""
+            for item in lista_combobox:
+                if(filtro == ""):
+                    filtro = item.strip()
+                else: 
+                    if(item != ""):
+                        filtro = filtro + " " + item.strip()
+
+            query = ("INSERT INTO movedb.ubicacionfisica (UbicacionFisicaName, Objeto, Numero, Seccion, Puerta)\
+                    VALUES ('"+ filtro +"', '"+ Objeto +"','"+ Numero +"', '"+ Seccion +"','"+ Puerta +"');")
                 
-                cursor.execute(query)
-                records = cursor.fetchall()
-                
-                
+        elif( self.sender() == self.ui.pushButton_6 ):
+            Objeto = ''
+            Numero = ''
+            Seccion = ''
+            Puerta = ''
+            Estante = ''
+                      
+            for combobox in self.widget.findChildren(QComboBox):
+                if(str(combobox.objectName) >= str(self.ui.comboBox_6.objectName) ):
+                    if(combobox.currentText() != ""):
+                        if(combobox == self.ui.comboBox_8 ):
+                            lista_combobox.append("P"+combobox.currentText())
+                            Puerta = combobox.currentText()
+                            
+                        elif(combobox == self.ui.comboBox_9):
+                            lista_combobox.append("Sec-"+combobox.currentText())
+                            Seccion = combobox.currentText()
+                            
+                        elif(combobox == self.ui.comboBox_7):
+                            Numero = combobox.currentText()
+                            lista_combobox.append(combobox.currentText())
+                                
+                        elif(combobox == self.ui.comboBox_6):                        
+                            Objeto = combobox.currentText()
+                            lista_combobox.append(combobox.currentText())
+                            
+                        elif(combobox == self.ui.comboBox_10):                        
+                            Estante = combobox.currentText()
+                            lista_combobox.append("Estante " + combobox.currentText())
+                            
+                        else:
+                            lista_combobox.append(combobox.currentText())
+                    
+            filtro = ""
+            for item in lista_combobox:
+                if(filtro == ""):
+                    filtro = item.strip()
+                else: 
+                    if(item != ""):
+                        filtro = filtro + " " + item.strip()
+
+            query = ("INSERT INTO movedb.ubicacionexacta (UbicacionExactaName, Objeto, Numero, Seccion, Puerta, Estante)\
+                    VALUES ('"+ filtro +"', '"+ Objeto +"','"+ Numero +"', '"+ Seccion +"','"+ Puerta +"','"+ Estante +"');")
+            
+        if(self.sender() == self.ui.pushButton_4 and self.ui.comboBox.currentText().strip() != '' or
+            self.sender() == self.ui.pushButton_6 and self.ui.comboBox_6.currentText().strip() != ''):
+            try:
+                        self.cnx = mysql.connector.connect( user=self.conn['user'], 
+                                                            password=self.conn['password'],
+                                                            host=self.conn['host'],
+                                                            database=self.conn['database'])
+
+                        cursor = self.cnx.cursor()
+                        
+
+                                    
+                        print(query)
+                        #cursor.execute(query)
+                        records = cursor.fetchall()
+                                   
             except mysql.connector.Error as err:
-                if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-                        print("Something is wrong with your user name or password")
-                elif err.errno == errorcode.ER_BAD_DB_ERROR:
-                        print("Database does not exist")
-                else:
-                        print(err)
+                        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                                print("Something is wrong with your user name or password")
+                        elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                                print("Database does not exist")
+                        else:
+                                print(err)
             else:
-                    cursor.close()
-
-
-    def seleccion(self, value):
-        if(value != NoneType):
-            print(value.text())
-            
-            aux = list(['','',' ',' ',' '])
-                        
-            r = value.text()
-            r = r.split()
-            #print(r)
-            Ubifis = Ubicacion_Fisica(r[0])
-                        
-            for p in range(len(r)):
-                    aux[p] = r[p]
-                   
-            
-            #Objeto
-            self.ui.comboBox.setCurrentText(aux[0])
-
-                
-
-            #Nombre num
-            self.ui.comboBox_2.setCurrentText(aux[1])
-                
-
-            #Puerta
-            self.ui.comboBox_3.setCurrentText(aux[2][1:])
-
-
-            #Seccion
-            self.ui.comboBox_4.setCurrentText(aux[3])
+                            cursor.close()
                        
-            #Posicion
-            self.ui.comboBox_5.setCurrentText(aux[4])
-                        
     def seleccion2(self, value):
         
         tabla = self.sender()
@@ -157,7 +181,8 @@ class clase_tablas(QWidget):
                     if(i == 0 ):
                         combobox.setCurrentText(aux[i].split()[0])
                     else:
-                        combobox.setCurrentText(aux[i])
+                        if(aux[i] != NoneType):
+                            combobox.setCurrentText(aux[i].strip())
                     i = i + 1 
 
         elif(value != NoneType and tabla == self.ui.tableWidget_2):
@@ -172,7 +197,7 @@ class clase_tablas(QWidget):
                     if(i == 0 ):
                         combobox.setCurrentText(aux[i].split()[0])
                     else:
-                        combobox.setCurrentText(aux[i])
+                        combobox.setCurrentText(aux[i].strip())
                     i = i + 1 
                 
 
@@ -336,148 +361,6 @@ class clase_tablas(QWidget):
                 if(str(combobox.objectName) >= str(self.ui.comboBox_6.objectName) ):
                     combobox.currentTextChanged.connect(self.Filtro3)
 
-    def Filtro2(self):
-        lista_combobox = list()
-        self.ui.listWidget_2.clear()
-        
-        for combobox in self.widget.findChildren(QComboBox):
-            if(str(combobox.objectName) >= str(self.ui.comboBox_6.objectName)):
-                combobox.currentTextChanged.disconnect()
-                save = combobox.currentText()
-                if(combobox != self.ui.comboBox_6):
-                    combobox.clear()
-                    combobox.addItem("")
-                combobox.setCurrentText(save)
-
-        for combobox in self.widget.findChildren(QComboBox):
-            if(str(combobox.objectName) >= str(self.ui.comboBox_6.objectName) ):
-                if(combobox == self.ui.comboBox_8 and combobox.currentText() != ""):
-                    lista_combobox.append("P"+combobox.currentText())
-                elif(combobox == self.ui.comboBox_9 and combobox.currentText() != ""):
-                    lista_combobox.append("Sec-"+combobox.currentText())
-                else:
-                    lista_combobox.append(combobox.currentText())
-                
-        filtro = ""
-        for item in lista_combobox:
-            if(filtro == ""):
-                filtro = item
-            else: 
-                if(item != ""):
-                    filtro = filtro + " " + item 
-
-        
-        filtro = filtro.strip()
-        
-        #print("filtro: "+ filtro)
-
-        try:
-            self.cnx = mysql.connector.connect( user=self.conn['user'], 
-                                                password=self.conn['password'],
-                                                host=self.conn['host'],
-                                                database=self.conn['database'])
-
-            cursor = self.cnx.cursor()
-            #ubiexacta
-            query = ("SELECT UbicacionExactaName,Objeto,Numero,Seccion,Puerta,Estante FROM movedb.ubicacionexacta\
-                        where UbicacionExactaName like '%"+ filtro +"%'\
-                        order by ubicacionexacta.UbicacionExactaName asc")
-            
-            cursor.execute(query)
-            records = cursor.fetchall()
-            self.Interprete2(records, self.ui.listWidget_2)
-            
-        except mysql.connector.Error as err:
-            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-                    print("Something is wrong with your user name or password")
-            elif err.errno == errorcode.ER_BAD_DB_ERROR:
-                    print("Database does not exist")
-            else:
-                    print(err)
-        else:
-                cursor.close()
-        
-        for combobox in self.widget.findChildren(QComboBox):
-            if(str(combobox.objectName) >= str(self.ui.comboBox_6.objectName) ):
-                combobox.currentTextChanged.connect(self.Filtro2)
-                pass
-                '''
-                if(combobox.count() == 1 and combobox.currentText()== ""):
-                    combobox.setDisabled(1)
-                else:
-                    combobox.setDisabled(0)
-                '''
-
-    def Filtro(self):
-        
-        lista_combobox = list()
-        self.ui.listWidget.clear()
-        for combobox in self.widget.findChildren(QComboBox):
-            if(str(combobox.objectName) <= str(self.ui.comboBox_5.objectName)):
-                combobox.currentTextChanged.disconnect()
-                save = combobox.currentText()
-                if(combobox != self.ui.comboBox):
-                    combobox.clear()
-                    combobox.addItem("")
-                combobox.setCurrentText(save)
-
-        for combobox in self.widget.findChildren(QComboBox):
-            if(str(combobox.objectName) <= str(self.ui.comboBox_5.objectName) ):
-                if(combobox == self.ui.comboBox_3 and combobox.currentText() != ""):
-                    lista_combobox.append("P"+combobox.currentText())
-                elif(combobox == self.ui.comboBox_4 and combobox.currentText() != ""):
-                    lista_combobox.append("Sec-"+combobox.currentText())
-                else:
-                    lista_combobox.append(combobox.currentText())
-                
-        filtro = ""
-        for item in lista_combobox:
-            if(filtro == ""):
-                filtro = item
-            else: 
-                if(item != ""):
-                    filtro = filtro + " " + item 
-
-        filtro = filtro[0:-2]
-        
-        #print("filtro: "+ filtro)
-
-        try:
-            self.cnx = mysql.connector.connect( user=self.conn['user'], 
-                                                password=self.conn['password'],
-                                                host=self.conn['host'],
-                                                database=self.conn['database'])
-
-            cursor = self.cnx.cursor()
-            #ubifisica
-            query = ("SELECT distinct UbicacionFisicaName FROM movedb.ubicacionfisica\
-                        where UbicacionFisicaName like '%"+ filtro +"%'\
-                        order by ubicacionfisica.UbicacionFisicaName asc")
-            
-            cursor.execute(query)
-            records = cursor.fetchall()
-            self.Interprete(records, self.ui.listWidget)
-            
-        except mysql.connector.Error as err:
-            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-                    print("Something is wrong with your user name or password")
-            elif err.errno == errorcode.ER_BAD_DB_ERROR:
-                    print("Database does not exist")
-            else:
-                    print(err)
-        else:
-                cursor.close()
-        
-        for combobox in self.widget.findChildren(QComboBox):
-            if(str(combobox.objectName) <= str(self.ui.comboBox_5.objectName) ):
-                combobox.currentTextChanged.connect(self.Filtro)
-                pass
-                '''
-                if(combobox.count() == 1 and combobox.currentText()== ""):
-                    combobox.setDisabled(1)
-                else:
-                    combobox.setDisabled(0)
-                '''
 
     def Cargar_Ubicaciones(self):
         self.ui.comboBox.addItem("")

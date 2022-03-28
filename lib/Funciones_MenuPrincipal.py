@@ -32,8 +32,13 @@ class clase_principal(QWidget):
         self.widget = QtWidgets.QStackedWidget()
         self.widget.setMinimumSize(1360,700)
         self.widget.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)
-        self.monitor = QDesktopWidget().screenGeometry(1)
-        self.widget.move(self.monitor.left(),self.monitor.top())
+        self.monitor = QDesktopWidget()
+        if(QDesktopWidget.screenCount(self.monitor) > 0):
+            self.monitor = QDesktopWidget().screenGeometry(1)
+            self.widget.move(self.monitor.left(),self.monitor.top())
+        else:
+            self.monitor = QDesktopWidget().screenGeometry(0)  
+                  
         if(self.monitor.height()>1000 and self.monitor.width()>900  ):
             self.widget.showMaximized()
         else:
