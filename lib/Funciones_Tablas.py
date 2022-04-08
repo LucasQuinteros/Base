@@ -3,7 +3,7 @@ from msilib.schema import ListView
 import string
 
 from xml.dom.minidom import TypeInfo
-from PyQt5.QtWidgets import QListWidgetItem, QMessageBox, QWidget,QComboBox,QTableWidgetItem,QTableWidget,QHeaderView
+from PyQt5.QtWidgets import QDialogButtonBox, QMessageBox, QWidget,QComboBox,QTableWidgetItem,QTableWidget,QHeaderView, QDialog,QLabel,QVBoxLayout
 from PyQt5 import QtCore
 import mysql.connector
 from mysql.connector import errorcode
@@ -151,10 +151,18 @@ class clase_tablas(QWidget):
                         cursor = self.cnx.cursor()
                         
 
-                                    
-                        print(query)
-                        #cursor.execute(query)
-                        records = cursor.fetchall()
+                        dlg = CustomDialog(self, filtro)
+                        dlg.setFixedSize(300,80)
+                        
+                        if dlg.exec():
+                            print("Success!")
+                            QMessageBox.information(self, 'Info', 'Creacion Exitosa')
+                            cursor.execute(query)
+                            records = cursor.fetchall()
+                        else:
+                            print("Cancel!")
+                        
+                        
                                    
             except mysql.connector.Error as err:
                         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
@@ -489,3 +497,21 @@ class Ubicacion_Exacta(object):
         self.Puerta = puerta
         self.Seccion = seccion
         self.Estante = estante
+        
+class CustomDialog(QDialog):
+    def __init__(self, parent=None, message = ''):
+        super().__init__(parent)
+
+        self.setWindowTitle("Creacion de nueva ubicacion")
+
+        QBtn = QDialogButtonBox.Ok | QDialogButtonBox.Cancel
+
+        self.buttonBox = QDialogButtonBox(QBtn)
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
+        
+        self.layout = QVBoxLayout()
+        message = QLabel("Ubicacion Nueva : " + message)
+        self.layout.addWidget(message)
+        self.layout.addWidget(self.buttonBox)
+        self.setLayout(self.layout)

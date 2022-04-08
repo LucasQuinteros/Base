@@ -119,6 +119,7 @@ class clase_ingresos(QWidget):
                 self.ui.tableWidget.setItemDelegateForColumn(4, Multiline)
                 
                 
+                
                 self.ui.tableWidget_2.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
                 self.ui.tableWidget_2.customContextMenuRequested.connect(self.generateMenuMov)
                 self.ui.tableWidget_2.viewport().installEventFilter(self)
@@ -581,7 +582,8 @@ class clase_ingresos(QWidget):
                         self.ui.tableWidget.verticalHeader().resizeSections(QHeaderView.ResizeToContents)                
                 
         def Cargar_tablas(self):
-             
+                self.Limpiar_selecciones()
+                
                 self.diccateg.clear()
                 self.dicSecequip.clear()
                 self.dicubifisica.clear()
