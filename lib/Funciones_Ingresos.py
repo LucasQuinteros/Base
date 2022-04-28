@@ -1,3 +1,4 @@
+from msilib.schema import ComboBox
 from typing import Text
 from PyQt5.QtGui import QColor
 from PyQt5 import QtWidgets,QtCore
@@ -8,6 +9,7 @@ from qts.Ui_ventana_ingresos import Ui_Form
 from qts.Ui_ventana_coincidencias import Ui_Dialog
 import mysql.connector
 import ast
+
 from mysql.connector import errorcode
 from datetime import datetime
 
@@ -82,6 +84,7 @@ class clase_ingresos(QWidget):
                 self.cambios = list()
                 self.conn = conn
                 self.Ingresos = list()
+                self.UbicacionesExactas = tuple()
                 self.action = self.menu.addAction("Eliminar")
                 self.action_2 = self.menu_2.addAction("Eliminar")
                 
@@ -100,6 +103,10 @@ class clase_ingresos(QWidget):
                 self.ui.comboBox_4.currentTextChanged.connect(lambda: self.handlercambio('UbiExac'))
                 self.ui.comboBox_5.currentTextChanged.connect(lambda: self.handlercambio('SeccEquip'))
                 self.ui.comboBox_6.currentTextChanged.connect(lambda: self.handlercambio('Estado'))
+                
+                self.ui.comboBox_7.currentTextChanged.connect(self.Filtro)
+                self.ui.comboBox_8.currentTextChanged.connect(self.Filtro)
+                
                 self.ui.lineEdit.textChanged.connect(lambda: self.handlercambio('Nserie'))
                 self.ui.lineEdit_2.textChanged.connect(lambda: self.handlercambio('PartNum'))
                 
@@ -185,6 +192,8 @@ class clase_ingresos(QWidget):
                 self.ui.comboBox_4.setCurrentIndex(0)
                 self.ui.comboBox_5.setCurrentIndex(0)
                 self.ui.comboBox_6.setCurrentIndex(0)
+                self.ui.comboBox_7.setCurrentIndex(0)
+                self.ui.comboBox_8.setCurrentIndex(0)
                 self.ui.lineEdit.setText('')
                 self.ui.lineEdit_2.setText('')
                 
@@ -653,7 +662,7 @@ class clase_ingresos(QWidget):
                         self.ui.comboBox_5.removeItem(0)
                 while (self.ui.comboBox_6.count() > 0):
                         self.ui.comboBox_6.removeItem(0)
-                while (self.ui.comboBox_8.count() > 0):
+                while (self.ui.comboBox_7.count() > 0):
                         self.ui.comboBox_7.removeItem(0)
                 while (self.ui.comboBox_8.count() > 0):
                         self.ui.comboBox_8.removeItem(0)
@@ -706,11 +715,18 @@ class clase_ingresos(QWidget):
                         self.ui.comboBox_4.addItem('')
                         self.ui.comboBox_7.addItem('')
                         self.ui.comboBox_8.addItem('')
+                        self.UbicacionesExactas = records
+                        
+                        
                         for row in records:
-                                self.dicubiexacta.update( {str(row[1]) : str(row[0]) })
+                                self.dicubiexacta.update( {str(row[1]) : str(row[0]) }) #diccionario para guardar ID 
+                                
                                 self.ui.comboBox_4.addItem(row[1])
+                                
                                 self.Interprete2(row)
-
+                                
+                        
+                        
                         query = ("SELECT distinct SecEquipoID,SecEquipoName FROM movedb.secequipo\
                                 order by secequipo.SecEquipoID asc")
                         
@@ -1116,9 +1132,50 @@ class clase_ingresos(QWidget):
                         else:
                                 QMessageBox.information(self, 'Info', 'Carga Exitosa')
                                 cursor.close()
+        
+        def Filtro(self):
+    
+                combo = self.sender()
+                lista_req = list()
+                UbiExacta = list()
+                objeto = self.ui.comboBox_7.currentText().lower().strip()
+                Numero = self.ui.comboBox_8.currentText().lower().strip()
+                
+                
+                
+                combo.currentTextChanged.disconnect()
+                if( (objeto + Numero) != ''):
+                        
+                        self.ui.comboBox_4.clear()
+                        self.ui.comboBox_4.addItem('')
+                        
+                        for i in range(len(self.UbicacionesExactas)):
+                                
+                                self.ui.comboBox_4.addItem(self.UbicacionesExactas[i][1] )  
+                        
+                        
+                        
+                        
+                        for i in range(len(self.UbicacionesExactas)):
+                                if(self.UbicacionesExactas[i][1].lower().__contains__(objeto ) 
+                                and self.UbicacionesExactas[i][1].lower().__contains__(Numero ) 
+                                or str(self.UbicacionesExactas[i][2]).lower().__contains__(objeto  +' '+ Numero) ):
+                                        UbiExacta.append(self.UbicacionesExactas[i][1] )
+                                
+                                                
+                        
+                        self.ui.comboBox_4.clear()
+                        self.ui.comboBox_4.addItems(UbiExacta)
+                        
+                else:
+                        self.ui.comboBox_4.clear()
+                        self.ui.comboBox_4.addItem('')
+                        for i in range(len(self.UbicacionesExactas)):
+                                self.ui.comboBox_4.addItem(self.UbicacionesExactas[i][1])         
+                        
+                combo.currentTextChanged.connect(self.Filtro)
                         
                 
-        
 
                 
                         

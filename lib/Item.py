@@ -50,7 +50,7 @@ class item_Mov():
                 self.Ori = ''
                 self.Dest= ''
                 self.NumMov = ''
-                if isinstance(args[0],mysql.connector.CMySQLConnection):
+                if isinstance(args[0],mysql.connector.MySQLConnection):
                         self.Cnx = args[0]
                         
                 elif isinstance(args[0], list):

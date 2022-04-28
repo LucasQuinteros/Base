@@ -62,17 +62,17 @@ class clase_principal(QWidget):
         
         #alan.rg.add 28.04.2022
         self.ui.Boton_Ingreso.setStyleSheet("background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0, stop:0 rgba(25, 35, 45, 255), stop:1 rgba(201, 205, 208, 255));\n"
-#"border-color: rgb(255, 255, 255);\n"
-"color: white;")
+                                            #"border-color: rgb(255, 255, 255);\n"
+                                            "color: white;")
         self.ui.Boton_Buscar.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(25, 35, 45, 255), stop:1 rgba(201, 205, 208, 255));\n"
-#"border-color: rgb(33, 168, 241);\n"
-"color: white;")
+                                            #"border-color: rgb(33, 168, 241);\n"
+                                            "color: white;")
         self.ui.Boton_Tablas.setStyleSheet("background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:0, y2:1, stop:0 rgba(25, 35, 45, 255), stop:1 rgba(201, 205, 208, 255));\n"
-#"border-color: rgb(0, 0, 0);\n"
-"color: white;")
+                                            #"border-color: rgb(0, 0, 0);\n"
+                                            "color: white;")
         self.ui.Boton_Config.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(25, 35, 45, 255), stop:1 rgba(201, 205, 208, 255));\n"
-#"border-color: rgb(0, 0, 0);\n"
-"color: white;")
+                                            #"border-color: rgb(0, 0, 0);\n"
+                                            "color: white;")
         fileMenu = self.ui.menubar.addMenu('&Archivo')
         themeMenu = self.ui.menubar.addMenu('&Theme')
         self.exitSubmenu = QAction(QIcon('exit24.png'), '&Salir', self)

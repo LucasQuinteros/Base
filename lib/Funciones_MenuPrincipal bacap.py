@@ -1,12 +1,3 @@
-# alan.rg.add 28.04.2022
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import QKeySequence, QPalette, QColor, QWindow
-from PyQt5.QtWidgets import QPushButton, QAction
-from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import pyqtSlot, center, Qt
-from lib.Funciones_Customic import clase_customic  #alan.rg.add
-# end alan.rg.add
-
 from PyQt5.QtWidgets import QApplication, QDialog, QMainWindow, QSizePolicy, QTableWidgetItem,QTableWidget,QTableView, QWidget,QDesktopWidget
 from PyQt5 import QtSql,QtWidgets,QtCore
 from PyQt5.QtCore import QSettings, Qt
@@ -39,7 +30,7 @@ class clase_principal(QWidget):
         self.Pag_tablas = clase_tablas(self.Pag_configuraciones.connector)
 
         self.widget = QtWidgets.QStackedWidget()
-        self.widget.setMinimumSize(1280,640)
+        self.widget.setMinimumSize(1360,700)
         self.widget.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)
         self.monitor = QDesktopWidget()
         if(QDesktopWidget.screenCount(self.monitor) > 0):
@@ -59,33 +50,6 @@ class clase_principal(QWidget):
         self.ui.Boton_Buscar.clicked.connect(self.GotoBuscar)
         self.ui.Boton_Config.clicked.connect(self.GotoConfig)
         self.ui.Boton_Tablas.clicked.connect(self.GotoTablas)
-        
-        #alan.rg.add 28.04.2022
-        self.ui.Boton_Ingreso.setStyleSheet("background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0, stop:0 rgba(25, 35, 45, 255), stop:1 rgba(201, 205, 208, 255));\n"
-#"border-color: rgb(255, 255, 255);\n"
-"color: white;")
-        self.ui.Boton_Buscar.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(25, 35, 45, 255), stop:1 rgba(201, 205, 208, 255));\n"
-#"border-color: rgb(33, 168, 241);\n"
-"color: white;")
-        self.ui.Boton_Tablas.setStyleSheet("background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:0, y2:1, stop:0 rgba(25, 35, 45, 255), stop:1 rgba(201, 205, 208, 255));\n"
-#"border-color: rgb(0, 0, 0);\n"
-"color: white;")
-        self.ui.Boton_Config.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(25, 35, 45, 255), stop:1 rgba(201, 205, 208, 255));\n"
-#"border-color: rgb(0, 0, 0);\n"
-"color: white;")
-        fileMenu = self.ui.menubar.addMenu('&Archivo')
-        themeMenu = self.ui.menubar.addMenu('&Theme')
-        self.exitSubmenu = QAction(QIcon('exit24.png'), '&Salir', self)
-        self.exitSubmenu.setShortcut('Ctrl+Q')
-        self.exitSubmenu.setStatusTip('Salir de la aplicacion')
-        self.exitSubmenu.triggered.connect(sys.exit)      
-        fileMenu.addAction(self.exitSubmenu)
-        self.esqSubmenu = QAction(QIcon('exit24.png'), '&Esquema de colores', self)
-        self.esqSubmenu.setStatusTip('Seeccionar Esquema de colores de la aplicacion')
-        self.esqSubmenu.triggered.connect(self.show_theme_window)
-        themeMenu.addAction(self.esqSubmenu)
-        #end.alan.rg.add
-                
         self.widget.addWidget(self.MainWindow)
         
         self.Pag_Busqueda.ui.pushButton.clicked.connect(self.Pag_Busqueda.request)
@@ -124,13 +88,6 @@ class clase_principal(QWidget):
         self.widget.show()
 
         self.Probar_conexion()
-    
-    #alan.rg.add 28.04.2022
-    def show_theme_window(self, checked):
-            self.w = clase_customic()
-            self.w.show()
-    #end.alan.rg.add 
-    
     @QtCore.pyqtSlot(bool)
     def proc_estado(self,bool):
         if(bool):

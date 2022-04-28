@@ -129,14 +129,11 @@ class clase_tablas(QWidget):
                             lista_combobox.append(combobox.currentText())
                                 
                         elif(combobox == self.ui.comboBox_6):                        
-                            Cnom = combobox.currentText()
+                           
                             obj = self.ui.comboBox_11.currentText().strip()
-                            if(obj != "" and Cnom.find(obj)<0):
-                                    Cnom = obj + "_" + Cnom
+                            
                                     
-                                    self.ui.comboBox_6.setEditText(Cnom)
-                                    
-                            lista_combobox.append(Cnom)
+                            lista_combobox.append(obj)
                             
                         elif(combobox == self.ui.comboBox_10):                        
                             Estante = combobox.currentText()
