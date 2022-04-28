@@ -1,7 +1,7 @@
 from typing import Text
 from PyQt5.QtGui import QColor
 from PyQt5 import QtWidgets,QtCore
-from PyQt5.QtWidgets import QDialog, QHeaderView, QMenu, QMessageBox, QPlainTextEdit, QStyledItemDelegate, QTableView, QTextEdit, QWidget
+from PyQt5.QtWidgets import QDialog, QHeaderView, QMenu, QMessageBox, QTextEdit, QWidget,QComboBox
 from lib.Funciones_Movimientos import clase_movimientos
 from lib.Item import *
 from qts.Ui_ventana_ingresos import Ui_Form
@@ -101,6 +101,7 @@ class clase_ingresos(QWidget):
                 self.ui.comboBox_5.currentTextChanged.connect(lambda: self.handlercambio('SeccEquip'))
                 self.ui.comboBox_6.currentTextChanged.connect(lambda: self.handlercambio('Estado'))
                 self.ui.lineEdit.textChanged.connect(lambda: self.handlercambio('Nserie'))
+                self.ui.lineEdit_2.textChanged.connect(lambda: self.handlercambio('PartNum'))
                 
                 self.ui.pushButton.clicked.connect(self.Actualizar_en_base)
                 self.ui.pushButton_2.clicked.connect(self.agregar_nuevoitem)
@@ -108,6 +109,8 @@ class clase_ingresos(QWidget):
                 self.ui.pushButton_5.clicked.connect(lambda: self.Traer_Prod(self.ui.comboBox.currentText() ) )
                 #self.ui.pushButton_3.clicked.connect(lambda: self.Chequear_serie(self.ui.lineEdit.text() )  )
                 self.ui.pushButton_6.clicked.connect(self.agregar_movimiento)
+                self.ui.pushButton_7.clicked.connect(self.agregar_movimiento)
+                self.ui.pushButton_8.clicked.connect(self.agregar_movimiento)
                 
 
                 Multiline = BlobDelegate()
@@ -115,6 +118,7 @@ class clase_ingresos(QWidget):
                 self.ui.tableWidget.setContextMenuPolicy(QtCore.Qt.CustomContextMenu) 
                 self.ui.tableWidget.customContextMenuRequested.connect(self.generateMenu)
                 self.ui.tableWidget.viewport().installEventFilter(self)
+                
                 self.ui.tableWidget.itemChanged.connect(self.changed)
                 self.ui.tableWidget.setItemDelegateForColumn(4, Multiline)
                 
@@ -125,15 +129,14 @@ class clase_ingresos(QWidget):
                 self.ui.tableWidget_2.viewport().installEventFilter(self)
                 
 
-                self.productpos = {'ProductID':'0','ProductName':'1','Cantidad':'2','Estado':'3','Observacion':'4','Nserie':'5','PartNum':'6','Descrip':'7','Cat':'8','UbiExac':'9','UbiFis':'10','SeccEquip':'11'}
+                self.productpos = {'ProductID':'0','ProductName':'1','Cantidad':'2','Estado':'3','Observacion':'4','Nserie':'5',
+                                   'PartNum':'6','Descrip':'7','Cat':'8','UbiExac':'9','UbiFis':'10','SeccEquip':'11'}
                 self.diccateg =    {'':'0','None':'None'}
                 self.dicSecequip = {'':'0','None':'None'}
                 self.dicubifisica = {'':'0','None':'None'}
                 self.dicubiexacta = {'':'0','None':'None'}
                 self.dicestado =    {'':'0','None':'None'}
 
-                
-        
         #Obtiene el nuevo movimiento agregado
         @QtCore.pyqtSlot(list)
         def proc_cargar(self,message):
@@ -185,7 +188,6 @@ class clase_ingresos(QWidget):
                 self.ui.lineEdit.setText('')
                 self.ui.lineEdit_2.setText('')
                 
-
         def changed(self,item):
                 ID = self.ui.tableWidget.item(item.row(),0).text()
                 for P in self.Ingresos:
@@ -223,7 +225,8 @@ class clase_ingresos(QWidget):
                                         index = self.Ingresos.index(prod)
 
                         Producto = self.Ingresos[index]
-
+                        movNuevo = item_Mov( self.cnx)
+                        table = self.ui.tableWidget_2
                         Fila = list()
                         Fila.append(self.cnx)
                         if( self.ui.tableWidget_2.rowCount() > 0 ):
@@ -237,6 +240,14 @@ class clase_ingresos(QWidget):
                         
                         #Agrego a mov
                         if ( ExistenMovs is True ):
+                                movNuevo.Date = Date.strftime("%Y-%m-%d %H:%M:%S")
+                                movNuevo.ID = 'N'+ str(index+1)
+                                movNuevo.Urec = '0'
+                                movNuevo.Usold = '0'
+                                movNuevo.Ush = '0'
+                                movNuevo.Usto = self.ui.tableWidget.item(fila,2).text()
+                                
+                                '''
                                 for i in range(self.ui.tableWidget_2.columnCount() ):
                                         Fila.append(self.ui.tableWidget_2.item(0, i).text())
                                 Fila[1] = 'N'+ str(index+1)
@@ -245,15 +256,36 @@ class clase_ingresos(QWidget):
                                 Fila[5] = '0'
                                 Fila[6] = '0'
                                 Fila[10] = ''
-                                
+                                if(self.sender() == self.ui.pushButton_8):
+                                        Fila[8] = 'Stock'
+                                '''
                         #Comienzo nueva listmov
                         elif(  ExistenMovs is False):
+                                movNuevo.Date = Date.strftime("%Y-%m-%d %H:%M:%S")
+                                movNuevo.ID = 'N1'
+                                movNuevo.Urec = '0'
+                                movNuevo.Usold = '0'
+                                movNuevo.Ush = '0'
+                                movNuevo.Usto = '0'
+                                
+                                '''
                                 for i in range(self.ui.tableWidget_2.columnCount() ):
                                         Fila.append('0')
                                 Fila[1] = 'N1'
                                 Fila[2] = Date.strftime("%Y-%m-%d %H:%M:%S")
+                                '''
+                        if(self.sender() == self.ui.pushButton_7):     
+                                movNuevo.Ori = 'Stock'
+                                movNuevo.Descr = 'Egreso'
+                                movNuevo.Usold = '1'
+                        if(self.sender() == self.ui.pushButton_8):  
+                                movNuevo.Descr = 'Ingreso'      
+                                movNuevo.Urec = '1'
+                                movNuevo.Ori = 'Stock'
+                                movNuevo.Dest = 'Stock'
+                                
                         
-                        self.ventana_movi.setparams(Fila)
+                        self.ventana_movi.setparams(movNuevo)
                         self.ventana_movi.widget.show()   
         
         def agregar_nuevoitem(self):
@@ -284,7 +316,7 @@ class clase_ingresos(QWidget):
                 self.Agregar_tabIngre(producto.__dict__)
               
         def handlercambio(self, key):
-                
+
 
                 if ( self.ui.tableWidget.selectedItems() != []):
                         fila = self.seleccion
@@ -311,6 +343,10 @@ class clase_ingresos(QWidget):
                                 contenido = self.ui.lineEdit.text()
                                 item = self.ui.tableWidget.item(fila,int(self.productpos[key]))
                                 existe = True
+                        elif(key == 'PartNum'):
+                                contenido = self.ui.lineEdit_2.text()
+                                item = self.ui.tableWidget.item(fila,int(self.productpos[key]))
+                                existe = True
                         elif(key == 'UbiFis'):
                                 contenido = self.ui.comboBox_3.currentText()
                                 item = self.ui.tableWidget.item(fila,int(self.productpos[key]))
@@ -327,12 +363,15 @@ class clase_ingresos(QWidget):
                                 if(self.ui.comboBox_5.findText(contenido) >= 0):
                                         existe = True
                         
+                        
                         if( contenido != item.text() and existe is True ):
                                 item.setText(contenido)
                                 for P in self.Ingresos:
                                         if (str(P.ProductID) == ID):
                                                 P.__dict__[key] = contenido
                                                 print(P.__dict__[key])
+                
+
                                 
         def eventFilter(self,source,event):
                 
@@ -343,13 +382,18 @@ class clase_ingresos(QWidget):
                         item = self.ui.tableWidget.itemAt(event.pos())
                         
                         if item is not None:
-                                
+                                #self.ui.tableWidget.selectRow(item.row())
+                                if(self.ui.tableWidget.item(item.row(),2).text() == '0' ):
+                                        self.ui.pushButton_7.setDisabled(1)
+                                else:
+                                        self.ui.pushButton_7.setDisabled(0)
                                 self.Cargar_movimientos(item)
                         if item is None:
+                                self.ui.pushButton_7.setDisabled(0)
                                 while (self.ui.tableWidget_2.rowCount() > 0):
                                         self.ui.tableWidget_2.removeRow(0)
                                 
-                 
+                
                 if(event.type() == QtCore.QEvent.MouseButtonPress and
                         event.buttons() == QtCore.Qt.RightButton and
                                 source is self.ui.tableWidget.viewport()):
@@ -514,9 +558,9 @@ class clase_ingresos(QWidget):
                                         print(err)
                         else:
                                 cursor.close()
-
+        
+        ### Busca y Carga en tabla los movimientos de un item seleccionado con click
         def Cargar_movimientos(self,item):
-                
                 
                 self.seleccion = item.row()
                 itemID = self.ui.tableWidget.item(item.row(),0).text()
@@ -546,7 +590,9 @@ class clase_ingresos(QWidget):
                                         self.ui.tableWidget_2.removeRow(0)
                         
                         for Mov in Producto.Movimientos:
+                                
                                 self.Agregar_tabMov(Mov.__dict__)
+                        
                 except:
                         while (self.ui.tableWidget_2.rowCount() > 0):
                                         self.ui.tableWidget_2.removeRow(0)
@@ -607,6 +653,11 @@ class clase_ingresos(QWidget):
                         self.ui.comboBox_5.removeItem(0)
                 while (self.ui.comboBox_6.count() > 0):
                         self.ui.comboBox_6.removeItem(0)
+                while (self.ui.comboBox_8.count() > 0):
+                        self.ui.comboBox_7.removeItem(0)
+                while (self.ui.comboBox_8.count() > 0):
+                        self.ui.comboBox_8.removeItem(0)
+                
                 
                 self.ui.lineEdit.setText('')              
                 try:
@@ -635,7 +686,7 @@ class clase_ingresos(QWidget):
                                 self.ui.comboBox_2.addItem(row[1])
 
                         query = ("SELECT distinct UbicacionFisicaID,UbicacionFisicaName FROM movedb.ubicacionfisica\
-                                order by ubicacionfisica.UbicacionFisicaID asc")
+                                order by ubicacionfisica.UbicacionFisicaName asc")
                         
                         cursor.execute(query)
                         records = cursor.fetchall()
@@ -645,16 +696,20 @@ class clase_ingresos(QWidget):
                                 self.dicubifisica.update( {str(row[1]) : str(row[0]) } )
                                 self.ui.comboBox_3.addItem(row[1])
 
-                        query = ("SELECT distinct UbicacionExactaID,UbicacionExactaName FROM movedb.ubicacionexacta\
-                                order by ubicacionexacta.UbicacionExactaID asc")
+                        query = ("SELECT distinct UbicacionExactaID,UbicacionExactaName,Objeto,Numero,Puerta,Seccion,Estante FROM movedb.ubicacionexacta\
+                                order by ubicacionexacta.UbicacionExactaName asc")
                         
                         cursor.execute(query)
                         records = cursor.fetchall()
                         
+                        
                         self.ui.comboBox_4.addItem('')
+                        self.ui.comboBox_7.addItem('')
+                        self.ui.comboBox_8.addItem('')
                         for row in records:
                                 self.dicubiexacta.update( {str(row[1]) : str(row[0]) })
                                 self.ui.comboBox_4.addItem(row[1])
+                                self.Interprete2(row)
 
                         query = ("SELECT distinct SecEquipoID,SecEquipoName FROM movedb.secequipo\
                                 order by secequipo.SecEquipoID asc")
@@ -689,6 +744,18 @@ class clase_ingresos(QWidget):
                 else:
                         cursor.close()
 
+        def Interprete2(self,row):
+                
+                
+                if(row[2] != None and row[2] != "" and self.ui.comboBox_7.findText(row[2])<0):
+                        self.ui.comboBox_7.addItem(row[2])
+
+                if(row[3] != None and row[2] != "" and self.ui.comboBox_8.findText(row[3])<0):
+                        self.ui.comboBox_8.addItem(row[3])
+                '''
+                if(row[4] != None and self.ui.comboBox_4.findText(row[4])<0):
+                        self.ui.comboBox_4.addItem(row[4])'''
+        
         #Busca por nombre de producto y numero de serie carga resultados en lista ingresos
         def Traer_Prod(self,Nombre):
                 try:
@@ -825,7 +892,7 @@ class clase_ingresos(QWidget):
 
                         for row in data:
                                 columns = convert(row)
-                                Mov = item_Mov(columns)
+                                Mov = item_Mov(list(columns))
                                 Producto.Movimientos.append(Mov)
                                 
                                 #print(Mov.__dict__)
@@ -1051,8 +1118,9 @@ class clase_ingresos(QWidget):
                                 cursor.close()
                         
                 
+        
 
-
+                
                         
 
 

@@ -38,8 +38,8 @@
           </font>
          </property>
          <property name="text">
-          <string>Transaction
-Date:</string>
+          <string>Fecha de la
+transaccion:</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -91,8 +91,8 @@ Date:</string>
           </font>
          </property>
          <property name="text">
-          <string>Transaction 
-Description:</string>
+          <string>Descripcion del
+ movimiento:</string>
          </property>
          <property name="textFormat">
           <enum>Qt::AutoText</enum>
@@ -141,8 +141,8 @@ Description:</string>
           </font>
          </property>
          <property name="text">
-          <string>Units
-Received:</string>
+          <string>Cantidad para
+agregar:</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -181,8 +181,8 @@ Received:</string>
           </font>
          </property>
          <property name="text">
-          <string>Units
-Sold:</string>
+          <string>Cantidad para
+descontar:</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -221,8 +221,8 @@ Sold:</string>
           </font>
          </property>
          <property name="text">
-          <string>Units
-Shrinkage:</string>
+          <string>Unidades a
+desechar:</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -261,8 +261,8 @@ Shrinkage:</string>
           </font>
          </property>
          <property name="text">
-          <string>Units
-Stock:</string>
+          <string>Unidades en
+stock:</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>

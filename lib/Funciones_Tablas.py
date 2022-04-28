@@ -1,6 +1,7 @@
 import errno
 from msilib.schema import ListView
 import string
+from tokenize import String
 
 from xml.dom.minidom import TypeInfo
 from PyQt5.QtWidgets import QDialogButtonBox, QMessageBox, QWidget,QComboBox,QTableWidgetItem,QTableWidget,QHeaderView, QDialog,QLabel,QVBoxLayout
@@ -45,14 +46,23 @@ class clase_tablas(QWidget):
         self.ui.tableWidget_2.cellClicked.connect(self.seleccion2)
 
     def Limpiar(self,boton):
+
         if(boton == self.ui.pushButton_3):
             for combobox in self.widget.findChildren(QComboBox):
                 if(str(combobox.objectName) <= str(self.ui.comboBox_5.objectName) ):
+                    combobox.currentTextChanged.disconnect()
                     combobox.setCurrentIndex(0)
+                    combobox.currentTextChanged.connect(self.Filtro3)
+            self.ui.comboBox.setCurrentText(" ")
+            self.ui.comboBox.setCurrentText("")
         elif(boton == self.ui.pushButton_5):
             for combobox in self.widget.findChildren(QComboBox):
                 if(str(combobox.objectName) >= str(self.ui.comboBox_6.objectName) ):
+                    combobox.currentTextChanged.disconnect()
                     combobox.setCurrentIndex(0)
+                    combobox.currentTextChanged.connect(self.Filtro3)
+            self.ui.comboBox_6.setCurrentText(" ")
+            self.ui.comboBox_6.setCurrentText("")
 
     def AgregarPosi(self):
         
@@ -119,12 +129,21 @@ class clase_tablas(QWidget):
                             lista_combobox.append(combobox.currentText())
                                 
                         elif(combobox == self.ui.comboBox_6):                        
-                            Objeto = combobox.currentText()
-                            lista_combobox.append(combobox.currentText())
+                            Cnom = combobox.currentText()
+                            obj = self.ui.comboBox_11.currentText().strip()
+                            if(obj != "" and Cnom.find(obj)<0):
+                                    Cnom = obj + "_" + Cnom
+                                    
+                                    self.ui.comboBox_6.setEditText(Cnom)
+                                    
+                            lista_combobox.append(Cnom)
                             
                         elif(combobox == self.ui.comboBox_10):                        
                             Estante = combobox.currentText()
                             lista_combobox.append("Estante " + combobox.currentText())
+                            
+                        elif(combobox == self.ui.comboBox_11):
+                            Objeto = combobox.currentText()
                             
                         else:
                             lista_combobox.append(combobox.currentText())
@@ -139,7 +158,7 @@ class clase_tablas(QWidget):
 
             query = ("INSERT INTO movedb.ubicacionexacta (UbicacionExactaName, Objeto, Numero, Seccion, Puerta, Estante)\
                     VALUES ('"+ filtro +"', '"+ Objeto +"','"+ Numero +"', '"+ Seccion +"','"+ Puerta +"','"+ Estante +"');")
-            
+            print(query)
         if(self.sender() == self.ui.pushButton_4 and self.ui.comboBox.currentText().strip() != '' or
             self.sender() == self.ui.pushButton_6 and self.ui.comboBox_6.currentText().strip() != ''):
             try:
@@ -157,6 +176,7 @@ class clase_tablas(QWidget):
                         if dlg.exec():
                             print("Success!")
                             QMessageBox.information(self, 'Info', 'Creacion Exitosa')
+                            print(Objeto)
                             cursor.execute(query)
                             records = cursor.fetchall()
                         else:
@@ -197,13 +217,15 @@ class clase_tablas(QWidget):
 
             for i in range(tabla.columnCount()):
                 if( i!= 1 ):
-                    aux.append(str(tabla.item(value,i).text() ) ) 
+                    aux.append(str(tabla.item(value,i).text() ) )
+            aux.append(str(tabla.item(value,1).text() )) 
 
             i = 0 
             for combobox in self.widget.findChildren(QComboBox): 
                 if(str(combobox.objectName) >= str(self.ui.comboBox_6.objectName)):
                     if(i == 0 ):
-                        combobox.setCurrentText(aux[i].split()[0])
+                        combobox.setCurrentText(aux[i].split()[0]) 
+                        
                     else:
                         combobox.setCurrentText(aux[i].strip())
                     i = i + 1 
@@ -300,7 +322,7 @@ class clase_tablas(QWidget):
                 if(str(combobox.objectName) >= str(self.ui.comboBox_6.objectName)):
                     combobox.currentTextChanged.disconnect()
                     save = combobox.currentText()
-                    if(combobox != self.ui.comboBox_6):
+                    if(combobox != self.ui.comboBox_6 and combobox != self.ui.comboBox_11):
                         combobox.clear()
                         combobox.addItem("")
                     combobox.setCurrentText(save)
@@ -312,18 +334,35 @@ class clase_tablas(QWidget):
                             Ubicacion =  combobox.currentText().strip()
                             reqUbicacion = "UbicacionExactaName like '%"+ Ubicacion +"%'"
                             lista_req.append(reqUbicacion)
+                            
                         elif(combobox == self.ui.comboBox_7):
                             Numero = combobox.currentText().strip()
                             reqNumero = "Numero like '%"+ Numero +"%'"
                             lista_req.append(reqNumero)
+                            
                         elif(combobox == self.ui.comboBox_8):
                             Puerta=combobox.currentText().strip()
                             reqPuerta = "Puerta like '%"+ Puerta +"%'"
                             lista_req.append(reqPuerta)
+                            
                         elif(combobox == self.ui.comboBox_9):
                             Seccion = combobox.currentText().strip()
                             reqSeccion = "Seccion like '%"+ Seccion +"%'"
                             lista_req.append(reqSeccion)
+                            
+                        elif(combobox == self.ui.comboBox_11):
+                            Objeto = combobox.currentText().strip()
+                            reqObjeto = "Objeto like '%"+ Objeto + "%'"
+                            
+                            '''
+                            if(Cnom == "" or Cnom.find(Objeto)<0):
+                                    pos = Cnom.find("_")
+                                    if(pos>=0):
+                                        Cnom = Cnom[pos+1:]
+                                    print(Cnom)
+                                    self.ui.comboBox_6.setEditText(Objeto + "_" + Cnom)'''
+                            lista_req.append(reqObjeto)
+                            
                         else:
                             Estante = combobox.currentText().strip()
                             reqEstante = "Estante like '%"+ Estante +"%'"
@@ -447,6 +486,8 @@ class clase_tablas(QWidget):
                 self.ui.comboBox_9.addItem("")
             if( self.ui.comboBox_10.findText("") == -1):
                 self.ui.comboBox_10.addItem("")
+            if( self.ui.comboBox_11.findText("") == -1):
+                self.ui.comboBox_11.addItem("")
             self.ui.comboBox_7.setInsertPolicy(QComboBox.InsertAlphabetically)
             
             for row in records:
@@ -464,6 +505,9 @@ class clase_tablas(QWidget):
 
                 if(r[0] != None and self.ui.comboBox_6.findText(r[0]) < 0):
                     self.ui.comboBox_6.addItem(r[0] )
+                
+                if(row[1] != None and self.ui.comboBox_11.findText(row[1]) < 0):
+                    self.ui.comboBox_11.addItem(row[1] )
 
                 if(row[2] != None and self.ui.comboBox_7.findText(row[2])<0):
                     self.ui.comboBox_7.addItem(row[2])
