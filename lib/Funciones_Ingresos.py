@@ -4,6 +4,7 @@ from PyQt5.QtGui import QColor
 from PyQt5 import QtWidgets,QtCore
 from PyQt5.QtWidgets import QDialog, QHeaderView, QMenu, QMessageBox, QTextEdit, QWidget,QComboBox
 from lib.Funciones_Movimientos import clase_movimientos
+from PyQt5.QtCore import QEvent
 from lib.Item import *
 from qts.Ui_ventana_ingresos import Ui_Form
 from qts.Ui_ventana_coincidencias import Ui_Dialog
@@ -79,6 +80,11 @@ class clase_ingresos(QWidget):
                 self.widget = QWidget()
                 self.ui = Ui_Form()
                 self.ui.setupUi(self.widget)
+               
+                self.widget.keyPressEvent = self.keyPressEvent
+                
+                
+                
                 self.menu = QMenu()
                 self.menu_2 = QMenu()
                 self.cambios = list()
@@ -134,7 +140,7 @@ class clase_ingresos(QWidget):
                 self.ui.tableWidget_2.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
                 self.ui.tableWidget_2.customContextMenuRequested.connect(self.generateMenuMov)
                 self.ui.tableWidget_2.viewport().installEventFilter(self)
-                
+                self.installEventFilter(self)
 
                 self.productpos = {'ProductID':'0','ProductName':'1','Cantidad':'2','Estado':'3','Observacion':'4','Nserie':'5',
                                    'PartNum':'6','Descrip':'7','Cat':'8','UbiExac':'9','UbiFis':'10','SeccEquip':'11'}
@@ -143,6 +149,10 @@ class clase_ingresos(QWidget):
                 self.dicubifisica = {'':'0','None':'None'}
                 self.dicubiexacta = {'':'0','None':'None'}
                 self.dicestado =    {'':'0','None':'None'}
+                
+                
+
+                
 
         #Obtiene el nuevo movimiento agregado
         @QtCore.pyqtSlot(list)
@@ -379,10 +389,21 @@ class clase_ingresos(QWidget):
                                         if (str(P.ProductID) == ID):
                                                 P.__dict__[key] = contenido
                                                 print(P.__dict__[key])
+        
+        
+        def keyPressEvent(self, event):
+                print('teclas')
+                if event.key() == QtCore.Qt.Key_Return: 
+                    self.Traer_Prod(self.ui.comboBox.currentText())
+                    
+
                 
 
                                 
         def eventFilter(self,source,event):
+                
+                if(event.type() == QtCore.QEvent.KeyPress and source is self.ui.lineEdit):
+                        print("Enter")
                 
                 if(event.type() == QtCore.QEvent.MouseButtonPress and
                         event.buttons() == QtCore.Qt.LeftButton and
@@ -725,8 +746,7 @@ class clase_ingresos(QWidget):
                                 
                                 self.Interprete2(row)
                                 
-                        
-                        
+
                         query = ("SELECT distinct SecEquipoID,SecEquipoName FROM movedb.secequipo\
                                 order by secequipo.SecEquipoID asc")
                         
@@ -1145,21 +1165,12 @@ class clase_ingresos(QWidget):
                 
                 combo.currentTextChanged.disconnect()
                 if( (objeto + Numero) != ''):
-                        
-                        self.ui.comboBox_4.clear()
-                        self.ui.comboBox_4.addItem('')
-                        
-                        for i in range(len(self.UbicacionesExactas)):
-                                
-                                self.ui.comboBox_4.addItem(self.UbicacionesExactas[i][1] )  
-                        
-                        
-                        
-                        
+
                         for i in range(len(self.UbicacionesExactas)):
                                 if(self.UbicacionesExactas[i][1].lower().__contains__(objeto ) 
                                 and self.UbicacionesExactas[i][1].lower().__contains__(Numero ) 
-                                or str(self.UbicacionesExactas[i][2]).lower().__contains__(objeto  +' '+ Numero) ):
+                                or str(self.UbicacionesExactas[i][2]).lower().__contains__(objeto) 
+                                ):
                                         UbiExacta.append(self.UbicacionesExactas[i][1] )
                                 
                                                 
@@ -1176,10 +1187,6 @@ class clase_ingresos(QWidget):
                 combo.currentTextChanged.connect(self.Filtro)
                         
                 
-
-                
-                        
-
 
 def convert(in_data):
         def cvt(data):

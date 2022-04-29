@@ -38,5 +38,6 @@ if __name__ == '__main__':
     app.setStyle('Fusion')
     dark_stylesheet = qdarkstyle.load_stylesheet_pyqt5()
     #end.alan.rg.add
+    
        
     sys.exit(app.exec_())

@@ -37,7 +37,8 @@ class clase_principal(QWidget):
         self.Pag_movimientos = clase_movimientos('Pag_busqueda')
         self.Pag_ingresos = clase_ingresos(self.Pag_configuraciones.connector)
         self.Pag_tablas = clase_tablas(self.Pag_configuraciones.connector)
-
+        
+        
         self.widget = QtWidgets.QStackedWidget()
         self.widget.setMinimumSize(1280,640)
         self.widget.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)
@@ -124,6 +125,8 @@ class clase_principal(QWidget):
         self.widget.show()
 
         self.Probar_conexion()
+        
+    
     
     #alan.rg.add 28.04.2022
     def show_theme_window(self, checked):
@@ -193,6 +196,8 @@ class clase_principal(QWidget):
 
     def GotoIngreso(self):
         self.widget.setCurrentIndex(5)
+        self.Pag_ingresos.ui.lineEdit.setFocus()
+        self.Pag_ingresos.ui.lineEdit.setFocusPolicy(QtCore.Qt.StrongFocus)
         self.Pag_ingresos.Cargar_tablas()
 
     def GotoConfig(self):
@@ -200,3 +205,5 @@ class clase_principal(QWidget):
 
     def GotoTablas(self):
         self.widget.setCurrentIndex(7)
+    
+    

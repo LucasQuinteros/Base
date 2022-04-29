@@ -130,7 +130,7 @@ class clase_tablas(QWidget):
                                 
                         elif(combobox == self.ui.comboBox_6):                        
                            
-                            obj = self.ui.comboBox_11.currentText().strip()
+                            obj = self.ui.comboBox_6.currentText().strip()
                             
                                     
                             lista_combobox.append(obj)
@@ -157,7 +157,8 @@ class clase_tablas(QWidget):
                     VALUES ('"+ filtro +"', '"+ Objeto +"','"+ Numero +"', '"+ Seccion +"','"+ Puerta +"','"+ Estante +"');")
             print(query)
         if(self.sender() == self.ui.pushButton_4 and self.ui.comboBox.currentText().strip() != '' or
-            self.sender() == self.ui.pushButton_6 and self.ui.comboBox_6.currentText().strip() != ''):
+            self.sender() == self.ui.pushButton_6 and self.ui.comboBox_6.currentText().strip() != ''
+            and obj != '' ):
             try:
                         self.cnx = mysql.connector.connect( user=self.conn['user'], 
                                                             password=self.conn['password'],
