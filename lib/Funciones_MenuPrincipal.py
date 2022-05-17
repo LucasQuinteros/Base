@@ -1,4 +1,6 @@
 # alan.rg.add 28.04.2022
+from ast import Try
+import ast
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QKeySequence, QPalette, QColor, QWindow
 from PyQt5.QtWidgets import QPushButton, QAction
@@ -13,6 +15,7 @@ from PyQt5.QtCore import QSettings, Qt
 
 import sys
 import mysql.connector
+from lib.Funciones_Ingresos import add_table,convert
 from mysql.connector import errorcode
 
 from lib.Funciones_Buscar import clase_buscar
@@ -27,6 +30,8 @@ from qts.Ui_Menu_principal import Ui_MainWindow
 
 
 class clase_principal(QWidget):
+    Signal_Resize =  QtCore.pyqtSignal()
+    
     def __init__(self):
         super(clase_principal,self).__init__()
         self.MainWindow = QMainWindow()
@@ -39,53 +44,28 @@ class clase_principal(QWidget):
         self.Pag_tablas = clase_tablas(self.Pag_configuraciones.connector)
         
         
+        
         self.widget = QtWidgets.QStackedWidget()
         self.widget.setMinimumSize(1280,640)
         self.widget.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)
+        self.widget.changeEvent = self.changeEvent
+        
         self.monitor = QDesktopWidget()
-        if(QDesktopWidget.screenCount(self.monitor) > 0):
-            self.monitor = QDesktopWidget().screenGeometry(1)
-            self.widget.move(self.monitor.left(),self.monitor.top())
-        else:
-            self.monitor = QDesktopWidget().screenGeometry(0)  
-                  
-        if(self.monitor.height()>1000 and self.monitor.width()>900  ):
-            self.widget.showMaximized()
-        else:
-            self.widget.show()
+        
+        self.Monitores()
+        
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self.MainWindow)
+        
         self.ui.Boton_Ingreso.clicked.connect(self.GotoIngreso)
         self.ui.Boton_Buscar.clicked.connect(self.GotoBuscar)
         self.ui.Boton_Config.clicked.connect(self.GotoConfig)
         self.ui.Boton_Tablas.clicked.connect(self.GotoTablas)
         
-        #alan.rg.add 28.04.2022
-        self.ui.Boton_Ingreso.setStyleSheet("background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0, stop:0 rgba(25, 35, 45, 255), stop:1 rgba(201, 205, 208, 255));\n"
-#"border-color: rgb(255, 255, 255);\n"
-"color: white;")
-        self.ui.Boton_Buscar.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(25, 35, 45, 255), stop:1 rgba(201, 205, 208, 255));\n"
-#"border-color: rgb(33, 168, 241);\n"
-"color: white;")
-        self.ui.Boton_Tablas.setStyleSheet("background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:0, y2:1, stop:0 rgba(25, 35, 45, 255), stop:1 rgba(201, 205, 208, 255));\n"
-#"border-color: rgb(0, 0, 0);\n"
-"color: white;")
-        self.ui.Boton_Config.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(25, 35, 45, 255), stop:1 rgba(201, 205, 208, 255));\n"
-#"border-color: rgb(0, 0, 0);\n"
-"color: white;")
-        fileMenu = self.ui.menubar.addMenu('&Archivo')
-        themeMenu = self.ui.menubar.addMenu('&Theme')
-        self.exitSubmenu = QAction(QIcon('exit24.png'), '&Salir', self)
-        self.exitSubmenu.setShortcut('Ctrl+Q')
-        self.exitSubmenu.setStatusTip('Salir de la aplicacion')
-        self.exitSubmenu.triggered.connect(sys.exit)      
-        fileMenu.addAction(self.exitSubmenu)
-        self.esqSubmenu = QAction(QIcon('exit24.png'), '&Esquema de colores', self)
-        self.esqSubmenu.setStatusTip('Seeccionar Esquema de colores de la aplicacion')
-        self.esqSubmenu.triggered.connect(self.show_theme_window)
-        themeMenu.addAction(self.esqSubmenu)
-        #end.alan.rg.add
+        self.Signal_Resize.connect(self.proc_Resize)
+        
+        self.CustomicInit()
                 
         self.widget.addWidget(self.MainWindow)
         
@@ -126,14 +106,28 @@ class clase_principal(QWidget):
 
         self.Probar_conexion()
         
-    
-    
+        
     #alan.rg.add 28.04.2022
     def show_theme_window(self, checked):
             self.w = clase_customic()
             self.w.show()
     #end.alan.rg.add 
     
+    def changeEvent(self, event):
+        if event.type() == QtCore.QEvent.WindowStateChange:
+                self.Signal_Resize.emit()
+                
+    
+    @QtCore.pyqtSlot()
+    def proc_Resize(self):
+
+        if(self.widget.size().height() < 700):
+            self.ui.tableWidget.resizeColumnsToContents()
+            self.ui.tableWidget.horizontalHeader().resizeSection(2,112)
+        else:
+            self.ui.tableWidget.resizeColumnToContents(2)
+        
+                
     @QtCore.pyqtSlot(bool)
     def proc_estado(self,bool):
         if(bool):
@@ -167,12 +161,76 @@ class clase_principal(QWidget):
         else:
                 self.proc_estado(True)
                 cursor.close()
+                self.Cargar_movimientos()
+     
+    def Cargar_movimientos(self):
+        
+        try:
+                self.cnx = mysql.connector.connect(user=self.Pag_configuraciones.connector['user'], 
+                                                        password=self.Pag_configuraciones.connector['password'],
+                                                        host=self.Pag_configuraciones.connector['host'],
+                                                        database=self.Pag_configuraciones.connector['database'])
+                cursor = self.cnx.cursor()
+                
+                query = ("SELECT t1.TransactionDate,\
+                                products.ProductName,\
+                                t1.TransactionDescription,\
+                                t1.UnitsStock,\
+                                t1.OrigenID,\
+                                t1.DestinoID\
+                                FROM movedb.inventorytransactions as t1\
+                                left join movedb.products on t1.ProductID = products.ProductID\
+                                left join movedb.destino on t1.DestinoID = destino.DestinoID\
+                                left join movedb.origen on t1.OrigenID = origen.OrigenID\
+                                order by t1.TransactionDate desc\
+                                limit 100 ;")
+                rows = cursor.execute(query)
+                data = cursor.fetchall()
+
+                for row in data:
+                        aux = self.ConvertirHoraFila(row)
+                        add_table(aux, self.ui, 3)
+                '''self.ui.tableWidget.horizontalHeader().resizeSection(0,90)
+                self.ui.tableWidget.horizontalHeader().resizeSection(2,200)
+                self.ui.tableWidget.horizontalHeader().resizeSection(3,20)
+                self.ui.tableWidget.horizontalHeader().resizeSection(4,55)
+                self.ui.tableWidget.horizontalHeader().resizeSection(5,55)'''
+                
+                self.ui.tableWidget.resizeColumnToContents(1)
+                self.ui.tableWidget.horizontalHeader().resizeSection(2,260)
+                
+        except mysql.connector.Error as err:
+                
+                if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                    print("Something is wrong with your user name or password")
+                elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                    print("Database does not exist")
+                else:
+                    print(err)
+        else:
+                cursor.close()
+    
+    def ConvertirHoraFila(self,Fila):
+        row = []
+        for item in Fila:
+            row.append(item)
+            
+        Fecha, Hora = str(row[0]).split()
+        Anio = Fecha[2:4]
+        Mes, Dia = Fecha[5:].split("-")
+
+
+        
+        row[0] = Hora[:-3] + "  "+ Dia +'/' + Mes  + "/" + Anio
+        
+        return row
         
     def GotoBuscar(self):
         self.widget.setCurrentIndex(1)
         self.Pag_Busqueda.cargar_tablas()
 
     def ir_menu(self):
+        self.Cargar_movimientos()
         self.widget.setCurrentIndex(0)
         
     def GotoModificar(self,arg):
@@ -205,5 +263,43 @@ class clase_principal(QWidget):
 
     def GotoTablas(self):
         self.widget.setCurrentIndex(7)
-    
-    
+
+    def Monitores(self):
+        if(QDesktopWidget.screenCount(self.monitor) >1):
+            
+            self.monitor = QDesktopWidget().screenGeometry(0)
+            self.widget.move(self.monitor.left(),self.monitor.top())
+        else:
+            self.monitor = QDesktopWidget().screenGeometry(0)  
+                  
+        if(self.monitor.height()>1000 and self.monitor.width()>900  ):
+            self.widget.showMaximized()
+        else:
+            self.widget.show()
+        
+    def CustomicInit(self):
+        #alan.rg.add 28.04.2022
+        self.ui.Boton_Ingreso.setStyleSheet("background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0, stop:0 rgba(25, 35, 45, 255), stop:1 rgba(201, 205, 208, 255));\n"
+        #"border-color: rgb(255, 255, 255);\n"
+        "color: white;")
+        self.ui.Boton_Buscar.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:1, y2:0, stop:0 rgba(25, 35, 45, 255), stop:1 rgba(201, 205, 208, 255));\n"
+        #"border-color: rgb(33, 168, 241);\n"
+        "color: white;")
+        self.ui.Boton_Tablas.setStyleSheet("background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:0, y2:1, stop:0 rgba(25, 35, 45, 255), stop:1 rgba(201, 205, 208, 255));\n"
+        #"border-color: rgb(0, 0, 0);\n"
+        "color: white;")
+        self.ui.Boton_Config.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(25, 35, 45, 255), stop:1 rgba(201, 205, 208, 255));\n"
+        #"border-color: rgb(0, 0, 0);\n"
+        "color: white;")
+        fileMenu = self.ui.menubar.addMenu('&Archivo')
+        themeMenu = self.ui.menubar.addMenu('&Theme')
+        self.exitSubmenu = QAction(QIcon('exit24.png'), '&Salir', self)
+        self.exitSubmenu.setShortcut('Ctrl+Q')
+        self.exitSubmenu.setStatusTip('Salir de la aplicacion')
+        self.exitSubmenu.triggered.connect(sys.exit)      
+        fileMenu.addAction(self.exitSubmenu)
+        self.esqSubmenu = QAction(QIcon('exit24.png'), '&Esquema de colores', self)
+        self.esqSubmenu.setStatusTip('Seeccionar Esquema de colores de la aplicacion')
+        self.esqSubmenu.triggered.connect(self.show_theme_window)
+        themeMenu.addAction(self.esqSubmenu)
+        #end.alan.rg.add

@@ -25,9 +25,11 @@ class clase_configuraciones(QWidget):
 
                 self.ui.pushButton.clicked.connect(self.Prueba_conexion)
                 self.ui.pushButton_3.clicked.connect(self.Guardar_datos)
+                
         def getsettingsvalues(self):
                 self.settings_conn = QtCore.QSettings('Base','Variables')
                 self.aux = self.settings_conn.value('dict') 
+
                 try:
                         self.ui.lineEdit.setText( self.aux['user'] )
                         self.ui.lineEdit_2.setText(self.aux['password'] )
@@ -53,6 +55,7 @@ class clase_configuraciones(QWidget):
                 self.connector['password'] = self.ui.lineEdit_2.text()
                 self.connector['host'] = self.ui.lineEdit_3.text()
                 self.connector['database'] = self.ui.lineEdit_4.text()
+                
                 self.settings_conn.setValue('dict',self.connector)
                 self.procCargar.emit(self.connector)
                 

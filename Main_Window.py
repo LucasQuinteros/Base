@@ -33,7 +33,9 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)  #alan.rg.mod 28.04.2022
 
     Myapp = clase_principal()
-
+    
+    #Myapp.widget.changeEvent = Myapp.changeEvent
+    
     #alan.rg.add 28.04.2022
     app.setStyle('Fusion')
     dark_stylesheet = qdarkstyle.load_stylesheet_pyqt5()
@@ -41,3 +43,4 @@ if __name__ == '__main__':
     
        
     sys.exit(app.exec_())
+    

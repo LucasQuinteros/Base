@@ -329,6 +329,7 @@ class clase_buscar(QWidget):
                 self.ui.comboBox_6.setCurrentIndex(0)
                 self.ui.lineEdit.setText('')
                 self.ui.lineEdit_2.setText('')
+
 def convert(in_data):
         def cvt(data):
             try:

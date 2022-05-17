@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1600</width>
-    <height>1200</height>
+    <width>1063</width>
+    <height>700</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1366</width>
-    <height>700</height>
+    <width>0</width>
+    <height>0</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -25,11 +25,11 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0,0,0,0,0,0,0,0,0,0">
+    <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0,0,0,0,0,0,0,0">
      <property name="sizeConstraint">
-      <enum>QLayout::SetMaximumSize</enum>
+      <enum>QLayout::SetDefaultConstraint</enum>
      </property>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,0,0,0,0,0">
@@ -42,7 +42,7 @@
        <item>
         <widget class="QComboBox" name="comboBox">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -50,13 +50,13 @@
          <property name="minimumSize">
           <size>
            <width>311</width>
-           <height>30</height>
+           <height>20</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>16777215</width>
-           <height>50</height>
+           <height>35</height>
           </size>
          </property>
          <property name="editable">
@@ -67,7 +67,7 @@
        <item>
         <widget class="QLabel" name="label">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -75,7 +75,7 @@
          <property name="minimumSize">
           <size>
            <width>100</width>
-           <height>15</height>
+           <height>20</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -97,7 +97,7 @@
        <item>
         <widget class="QPushButton" name="pushButton_5">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -105,7 +105,7 @@
          <property name="minimumSize">
           <size>
            <width>300</width>
-           <height>30</height>
+           <height>20</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -132,7 +132,7 @@
          <property name="sizeHint" stdset="0">
           <size>
            <width>40</width>
-           <height>20</height>
+           <height>0</height>
           </size>
          </property>
         </spacer>
@@ -140,7 +140,7 @@
        <item>
         <widget class="QLabel" name="label_4">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -148,7 +148,7 @@
          <property name="minimumSize">
           <size>
            <width>100</width>
-           <height>30</height>
+           <height>20</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -173,7 +173,7 @@
        <item>
         <widget class="QLineEdit" name="lineEdit">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -181,7 +181,7 @@
          <property name="minimumSize">
           <size>
            <width>200</width>
-           <height>30</height>
+           <height>20</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -208,7 +208,7 @@
        <item>
         <widget class="QComboBox" name="comboBox_2">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -216,13 +216,13 @@
          <property name="minimumSize">
           <size>
            <width>311</width>
-           <height>30</height>
+           <height>20</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>16777215</width>
-           <height>50</height>
+           <height>35</height>
           </size>
          </property>
          <property name="editable">
@@ -236,7 +236,7 @@
           <bool>true</bool>
          </property>
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+          <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -244,7 +244,7 @@
          <property name="minimumSize">
           <size>
            <width>100</width>
-           <height>30</height>
+           <height>20</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -274,7 +274,7 @@
          <property name="sizeHint" stdset="0">
           <size>
            <width>10</width>
-           <height>20</height>
+           <height>0</height>
           </size>
          </property>
         </spacer>
@@ -282,7 +282,7 @@
        <item>
         <widget class="QLabel" name="label_5">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -290,7 +290,7 @@
          <property name="minimumSize">
           <size>
            <width>100</width>
-           <height>30</height>
+           <height>20</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -315,7 +315,7 @@
        <item>
         <widget class="QLineEdit" name="lineEdit_2">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -323,7 +323,7 @@
          <property name="minimumSize">
           <size>
            <width>200</width>
-           <height>30</height>
+           <height>20</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -347,7 +347,7 @@
        <item>
         <widget class="QComboBox" name="comboBox_3">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -355,13 +355,13 @@
          <property name="minimumSize">
           <size>
            <width>311</width>
-           <height>30</height>
+           <height>20</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>16777215</width>
-           <height>50</height>
+           <height>35</height>
           </size>
          </property>
          <property name="editable">
@@ -372,7 +372,7 @@
        <item>
         <widget class="QLabel" name="label_2">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -380,7 +380,7 @@
          <property name="minimumSize">
           <size>
            <width>100</width>
-           <height>30</height>
+           <height>20</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -413,7 +413,7 @@
          <property name="sizeHint" stdset="0">
           <size>
            <width>850</width>
-           <height>20</height>
+           <height>0</height>
           </size>
          </property>
         </spacer>
@@ -421,7 +421,7 @@
        <item>
         <widget class="QLabel" name="label_9">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -429,7 +429,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>30</height>
+           <height>20</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -451,7 +451,7 @@
        <item>
         <widget class="QLineEdit" name="lineEdit_3">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -459,7 +459,7 @@
          <property name="minimumSize">
           <size>
            <width>200</width>
-           <height>30</height>
+           <height>20</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -482,7 +482,7 @@
        <item>
         <widget class="QComboBox" name="comboBox_4">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -490,13 +490,13 @@
          <property name="minimumSize">
           <size>
            <width>311</width>
-           <height>30</height>
+           <height>20</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>16777215</width>
-           <height>50</height>
+           <height>35</height>
           </size>
          </property>
          <property name="editable">
@@ -507,7 +507,7 @@
        <item>
         <widget class="QLabel" name="label_6">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -515,7 +515,7 @@
          <property name="minimumSize">
           <size>
            <width>100</width>
-           <height>30</height>
+           <height>20</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -546,6 +546,18 @@
        </item>
        <item>
         <widget class="QLabel" name="label_10">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>50</height>
+          </size>
+         </property>
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -559,7 +571,7 @@
        <item>
         <widget class="QComboBox" name="comboBox_7">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -567,7 +579,13 @@
          <property name="minimumSize">
           <size>
            <width>200</width>
-           <height>0</height>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>50</height>
           </size>
          </property>
          <property name="editable">
@@ -577,6 +595,18 @@
        </item>
        <item>
         <widget class="QLabel" name="label_11">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>50</height>
+          </size>
+         </property>
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -590,10 +620,22 @@
        <item>
         <widget class="QComboBox" name="comboBox_8">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>50</height>
+          </size>
          </property>
          <property name="editable">
           <bool>true</bool>
@@ -611,7 +653,7 @@
          <property name="sizeHint" stdset="0">
           <size>
            <width>0</width>
-           <height>20</height>
+           <height>0</height>
           </size>
          </property>
         </spacer>
@@ -623,7 +665,7 @@
        <item>
         <widget class="QComboBox" name="comboBox_5">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -631,13 +673,13 @@
          <property name="minimumSize">
           <size>
            <width>311</width>
-           <height>30</height>
+           <height>20</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>16777215</width>
-           <height>50</height>
+           <height>35</height>
           </size>
          </property>
          <property name="editable">
@@ -648,7 +690,7 @@
        <item>
         <widget class="QLabel" name="label_12">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -656,7 +698,7 @@
          <property name="minimumSize">
           <size>
            <width>100</width>
-           <height>30</height>
+           <height>20</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -689,7 +731,7 @@
          <property name="sizeHint" stdset="0">
           <size>
            <width>900</width>
-           <height>20</height>
+           <height>0</height>
           </size>
          </property>
         </spacer>
@@ -701,7 +743,7 @@
        <item>
         <widget class="QComboBox" name="comboBox_6">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -709,13 +751,13 @@
          <property name="minimumSize">
           <size>
            <width>311</width>
-           <height>30</height>
+           <height>20</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>16777215</width>
-           <height>50</height>
+           <height>35</height>
           </size>
          </property>
          <property name="editable">
@@ -726,7 +768,7 @@
        <item>
         <widget class="QLabel" name="label_13">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -734,13 +776,13 @@
          <property name="minimumSize">
           <size>
            <width>100</width>
-           <height>30</height>
+           <height>20</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>16777215</width>
-           <height>30</height>
+           <height>50</height>
           </size>
          </property>
          <property name="font">
@@ -767,7 +809,7 @@
          <property name="sizeHint" stdset="0">
           <size>
            <width>900</width>
-           <height>20</height>
+           <height>0</height>
           </size>
          </property>
         </spacer>
@@ -783,7 +825,7 @@
          <property name="minimumSize">
           <size>
            <width>300</width>
-           <height>30</height>
+           <height>20</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -805,106 +847,110 @@
       </layout>
      </item>
      <item>
-      <widget class="QLabel" name="label_8">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>15</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>16777215</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Movimientos:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QTableWidget" name="tableWidget_2">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>100</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>16777215</width>
-         <height>300</height>
-        </size>
-       </property>
-       <column>
-        <property name="text">
-         <string>TransactionID</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Transaction Date</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Transaction Descript</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>UnitsReceived</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>UnitsSold</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>UnitsShrinkage</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>UnitsStock</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>OrigenID</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>DestinoID</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>NumberMov</string>
-        </property>
-       </column>
-      </widget>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QLabel" name="label_8">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>15</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Movimientos:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTableWidget" name="tableWidget_2">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>300</height>
+          </size>
+         </property>
+         <column>
+          <property name="text">
+           <string>TransactionID</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Transaction Date</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Transaction Descript</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>UnitsReceived</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>UnitsSold</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>UnitsShrinkage</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>UnitsStock</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>OrigenID</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>DestinoID</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>NumberMov</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_8">
@@ -919,7 +965,7 @@
          <property name="minimumSize">
           <size>
            <width>200</width>
-           <height>40</height>
+           <height>30</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -949,7 +995,7 @@
          <property name="minimumSize">
           <size>
            <width>200</width>
-           <height>40</height>
+           <height>30</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -979,7 +1025,7 @@
          <property name="minimumSize">
           <size>
            <width>200</width>
-           <height>40</height>
+           <height>30</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -1001,137 +1047,141 @@
       </layout>
      </item>
      <item>
-      <widget class="QLabel" name="label_7">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>15</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>16777215</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Lista de ingresos:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QTableWidget" name="tableWidget">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>150</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>16777215</width>
-         <height>300</height>
-        </size>
-       </property>
-       <property name="contextMenuPolicy">
-        <enum>Qt::CustomContextMenu</enum>
-       </property>
-       <property name="sizeAdjustPolicy">
-        <enum>QAbstractScrollArea::AdjustToContents</enum>
-       </property>
-       <property name="columnCount">
-        <number>12</number>
-       </property>
-       <attribute name="horizontalHeaderVisible">
-        <bool>true</bool>
-       </attribute>
-       <attribute name="verticalHeaderVisible">
-        <bool>true</bool>
-       </attribute>
-       <attribute name="verticalHeaderDefaultSectionSize">
-        <number>30</number>
-       </attribute>
-       <attribute name="verticalHeaderMinimumSectionSize">
-        <number>23</number>
-       </attribute>
-       <column>
-        <property name="text">
-         <string>ID</string>
-        </property>
-        <property name="textAlignment">
-         <set>AlignLeading|AlignVCenter</set>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Nombre</string>
-        </property>
-        <property name="textAlignment">
-         <set>AlignJustify|AlignVCenter</set>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Cantidad</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Estado</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Observacion</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>NºSerie</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Part Number</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Descripcion</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Categoria</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Ubicacion Exacta</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Ubicacion Fisica</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Seccion Equipo</string>
-        </property>
-       </column>
-      </widget>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLabel" name="label_7">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Lista de ingresos:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTableWidget" name="tableWidget">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>150</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>300</height>
+          </size>
+         </property>
+         <property name="contextMenuPolicy">
+          <enum>Qt::CustomContextMenu</enum>
+         </property>
+         <property name="sizeAdjustPolicy">
+          <enum>QAbstractScrollArea::AdjustToContents</enum>
+         </property>
+         <property name="columnCount">
+          <number>12</number>
+         </property>
+         <attribute name="horizontalHeaderVisible">
+          <bool>true</bool>
+         </attribute>
+         <attribute name="verticalHeaderVisible">
+          <bool>true</bool>
+         </attribute>
+         <attribute name="verticalHeaderDefaultSectionSize">
+          <number>30</number>
+         </attribute>
+         <attribute name="verticalHeaderMinimumSectionSize">
+          <number>23</number>
+         </attribute>
+         <column>
+          <property name="text">
+           <string>ID</string>
+          </property>
+          <property name="textAlignment">
+           <set>AlignLeading|AlignVCenter</set>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Nombre</string>
+          </property>
+          <property name="textAlignment">
+           <set>AlignJustify|AlignVCenter</set>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Cantidad</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Estado</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Observacion</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>NºSerie</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Part Number</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Descripcion</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Categoria</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Ubicacion Exacta</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Ubicacion Fisica</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Seccion Equipo</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -1146,7 +1196,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>40</height>
+           <height>25</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -1192,7 +1242,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>40</height>
+           <height>25</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -1224,7 +1274,7 @@
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>40</height>
+         <height>25</height>
         </size>
        </property>
        <property name="maximumSize">

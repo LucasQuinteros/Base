@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1600</width>
-    <height>1200</height>
+    <width>1297</width>
+    <height>960</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0,0,0,0,0,0,0">
+    <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0,0,0,0,0,0">
      <property name="sizeConstraint">
       <enum>QLayout::SetMaximumSize</enum>
      </property>
@@ -42,7 +42,7 @@
            </property>
            <property name="minimumSize">
             <size>
-             <width>200</width>
+             <width>250</width>
              <height>0</height>
             </size>
            </property>
@@ -120,15 +120,15 @@
          <item>
           <widget class="QLineEdit" name="lineEdit">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
            <property name="minimumSize">
             <size>
-             <width>300</width>
-             <height>25</height>
+             <width>200</width>
+             <height>0</height>
             </size>
            </property>
            <property name="maximumSize">
@@ -168,7 +168,7 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>200</width>
+           <width>250</width>
            <height>0</height>
           </size>
          </property>
@@ -245,7 +245,7 @@
        <item>
         <widget class="QLineEdit" name="lineEdit_2">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -253,7 +253,7 @@
          <property name="minimumSize">
           <size>
            <width>100</width>
-           <height>25</height>
+           <height>0</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -284,7 +284,7 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>390</width>
+           <width>315</width>
            <height>0</height>
           </size>
          </property>
@@ -356,15 +356,15 @@
        <item>
         <widget class="QLineEdit" name="lineEdit_3">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
          <property name="minimumSize">
           <size>
-           <width>390</width>
-           <height>25</height>
+           <width>150</width>
+           <height>0</height>
           </size>
          </property>
         </widget>
@@ -383,7 +383,7 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>390</width>
+           <width>315</width>
            <height>0</height>
           </size>
          </property>
@@ -454,7 +454,7 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>390</width>
+           <width>315</width>
            <height>0</height>
           </size>
          </property>
@@ -525,7 +525,7 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>390</width>
+           <width>315</width>
            <height>0</height>
           </size>
          </property>
@@ -592,9 +592,14 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>100</width>
+           <width>200</width>
            <height>30</height>
           </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
          </property>
          <property name="text">
           <string>Limpiar campos</string>
@@ -699,7 +704,7 @@
        <item>
         <widget class="QPushButton" name="pushButton">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -707,7 +712,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>50</height>
+           <height>40</height>
           </size>
          </property>
          <property name="font">
@@ -739,7 +744,7 @@
        <item>
         <widget class="QPushButton" name="pushButton_2">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -747,7 +752,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>50</height>
+           <height>40</height>
           </size>
          </property>
          <property name="font">
@@ -763,25 +768,9 @@
       </layout>
      </item>
      <item>
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Preferred</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>10</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
       <widget class="QDialogButtonBox" name="buttonBox">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>

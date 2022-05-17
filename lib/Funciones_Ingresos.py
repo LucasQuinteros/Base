@@ -20,7 +20,9 @@ class clase_Coincidencias(QWidget):
         def __init__(self):
                 super().__init__()
                 self.dialog = QDialog()
-                self.dialog.setMinimumSize(1366,600)
+                #self.dialog.setMinimumSize(1366,600)
+                self.dialog.setMinimumHeight(400)
+                self.dialog.setMaximumSize(1920,1080)
                 self.ui = Ui_Dialog()
                 self.ui.setupUi(self.dialog)
                 self.data = ''
@@ -45,7 +47,8 @@ class clase_Coincidencias(QWidget):
                 self.ui.tableWidget.horizontalHeader().resizeSections(QHeaderView.ResizeToContents)
                 #self.ui.tableWidget.horizontalHeader().setSectionResizeMode(5,QHeaderView.Stretch)
                 self.ui.tableWidget.verticalHeader().resizeSections(QHeaderView.ResizeToContents)
-
+                print(self.ui.tableWidget.size())
+                #self.dialog.setFixedSize(self.ui.tableWidget.size().width()+ 100,self.ui.tableWidget.size().height()+ 100 )
         def Confirmado(self):
                 self.procCargar.emit(self.seleccion)
                 self.seleccion.clear()
@@ -1209,7 +1212,7 @@ class BlobDelegate(QtWidgets.QStyledItemDelegate):
         
         def setModelData(self, editor: QWidget, model: QtCore.QAbstractItemModel, index: QtCore.QModelIndex) -> None:
             model.setData(index, editor.toPlainText())
-            self.Signalresize.emit()
+           
                         
             
             
@@ -1222,7 +1225,7 @@ class BlobDelegate(QtWidgets.QStyledItemDelegate):
                 return super(BlobDelegate, self).displayText(value, locale)
 
 
-def add_table(columns, ui):
+def add_table(columns, ui, rojo = 2):
             rowPosition = ui.tableWidget.rowCount()
             ui.tableWidget.insertRow(rowPosition)
             
@@ -1235,7 +1238,7 @@ def add_table(columns, ui):
                 '''
                 item = ui.tableWidget.setItem(rowPosition, i, item)
         
-                if(i == 2):
+                if(i == rojo):
                         ui.tableWidget.item(rowPosition,i).setTextAlignment(QtCore.Qt.AlignCenter)
                         if(str(column) != 'None'):
                             if((int)(column) <= 0):
